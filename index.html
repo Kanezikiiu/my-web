@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>日本文化志 NIPPON</title>
+    <meta name="description" content="日本文化志 NIPPON——关于这个岛国的文化、旅行与日常：从一碗拉面到一座千年神社，慢慢写给你看。">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="日本文化志 NIPPON">
+    <meta property="og:description" content="关于这个岛国的文化、旅行与日常——从一碗拉面到一座千年神社，慢慢写给你看。">
+    <meta property="og:image" content="favicon.png">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="日本文化志 NIPPON">
+    <meta name="twitter:description" content="关于这个岛国的文化、旅行与日常——从一碗拉面到一座千年神社，慢慢写给你看。">
+    <meta name="twitter:image" content="favicon.png">
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAwElEQVR42u3bwQ3DMAwDQC3U/T/dTZ2gQNDIrhUdgQzAewW2GfFD8tDEqmTTjCxdgpEPzejylxBySEaX/4oAYDJADg0AAAD2ln/H69K3FeGU0v/CiFOL74KIDuVXIkSH4isholv5aoToWL4SAUDX8lUI0bl8BQKA7uXvIgAA8IDydxAAAAAAAAAAAAAA+BUGAMCBCACHoo7FAbgacznqetwDiZMgVscjKe8EAQAAYC8AAIDRlNmc4aTprPH0xPn8B5JjO35//eUvAAAAAElFTkSuQmCC">
     <style>
         /* =====================================================
@@ -20,6 +30,9 @@
             --color-primary-hover: #142E55;
             --color-accent: #C8102E;
             --color-border: #E5E5E5;
+            --color-surface: #FFFFFF;
+            --color-header-bg: #FFFFFF;
+            --color-nav-link: #666666;
             --font-family: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
                            "Helvetica Neue", Arial, Inter, "PingFang SC",
                            "Microsoft YaHei", system-ui, sans-serif;
@@ -48,8 +61,9 @@
         img { max-width: 100%; display: block; }
 
         /* 顶部导航 */
-        .site-header { position: -webkit-sticky; position: sticky; top: 0; z-index: 1000; background: #FFFFFF; border-bottom: 1px solid var(--color-border); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09); }
+        .site-header { position: -webkit-sticky; position: sticky; top: 0; z-index: 1000; background: var(--color-header-bg); border-bottom: 1px solid var(--color-border); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09); }
         .nav {
+            position: relative;
             max-width: var(--content-max-width);
             margin: 0 auto;
             padding: 0 var(--space-3);
@@ -64,10 +78,15 @@
             color: var(--color-primary); white-space: nowrap;
         }
         .nav-links {
-            display: flex; gap: var(--space-3); list-style: none; flex-wrap: wrap;
+            display: flex; gap: var(--space-3); list-style: none;
+            margin-left: auto; padding: 8px 64px 8px 0;
+            flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; min-width: 0;
+            align-items: center;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
         }
+        .nav-links::-webkit-scrollbar { display: none; }
         .nav-links a {
-            font-size: 14px; color: #666666;
+            font-size: 14px; line-height: 1.4; color: var(--color-nav-link);
             padding: 6px 2px; border-bottom: 2px solid transparent;
             transition: color 0.15s ease, border-color 0.15s ease; white-space: nowrap;
         }
@@ -215,20 +234,94 @@
 
         @media (max-width: 768px) {
             .nav {
-                height: auto; padding: var(--space-2) var(--space-2);
-                flex-direction: column; align-items: flex-start; gap: var(--space-2);
+                height: 64px; padding: 0 var(--space-2);
+                flex-direction: row; align-items: center; gap: var(--space-2);
             }
-            .nav-links { gap: var(--space-2) var(--space-3); }
+            .nav-links { gap: var(--space-2) var(--space-3); flex: 1; min-width: 0; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; padding: 8px 64px 8px 0; align-items: center; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+            .nav-links::-webkit-scrollbar { display: none; }
             .main { padding: var(--space-4) var(--space-2) 56px; }
             .hero h1, .page-header h1 { font-size: 28px; }
             .footer-inner { flex-direction: column; gap: var(--space-1); text-align: center; }
             .footer-inner .footer-year { position: static; transform: none; }
         }
+
+        /* 键盘焦点可见性（无障碍） */
+        :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: 2px; }
+
+        /* 视觉隐藏（供屏幕阅读器） */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+        /* 回到顶部（滚动后出现） */
+        .back-top {
+            position: fixed; right: 24px; bottom: 80px; z-index: 900;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--color-primary); color: #FFFFFF;
+            font-size: 18px; line-height: 1; border: none; cursor: pointer;
+            opacity: 0; pointer-events: none; transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        .back-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .back-top:hover { background: var(--color-primary-hover); }
+
+        /* 导航栏搜索按钮（放大镜）+ 下拉搜索框 */
+        .nav-search-wrap { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; }
+        .search-toggle {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 50%;
+            background: none; border: none; cursor: pointer;
+            color: var(--color-nav-link);
+            transition: color 0.15s ease, background 0.15s ease;
+        }
+        .search-toggle:hover { color: var(--color-primary); background: var(--color-bg-secondary); }
+        .search-toggle svg { display: block; }
+        .search-drop {
+            position: absolute; top: calc(100% + 10px); right: 0; z-index: 950;
+            background: var(--color-bg); border: 1px solid var(--color-border);
+            border-radius: var(--radius); padding: 8px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        .search-drop[hidden] { display: none; }
+        .search-drop .nav-search { width: 220px; }
+
+        /* 站内搜索 */
+        .nav-search {
+            font-size: 13px; padding: 6px 10px;
+            border: 1px solid var(--color-border); border-radius: var(--radius);
+            background: var(--color-bg); color: var(--color-text);
+            width: 170px; outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .nav-search:focus { border-color: var(--color-primary); }
+        .search-count {
+            max-width: var(--content-max-width); margin: 0 auto; padding: 8px var(--space-3) 0;
+            font-size: 13px; color: var(--color-text-muted);
+        }
+        .search-count:empty { display: none; }
+
+        /* 深色模式（跟随系统） */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-bg: #141414;
+                --color-bg-secondary: #1B1B1B;
+                --color-surface: #1E1E1E;
+                --color-text: #E8E8E8;
+                --color-text-secondary: #B8B8B8;
+                --color-text-muted: #8A8A8A;
+                --color-border: #333333;
+                --color-primary: #8FAFDC;
+                --color-primary-hover: #A6C2E8;
+                --color-accent: #E0606E;
+                --color-header-bg: #1E1E1E;
+                --color-nav-link: #C8C8C8;
+            }
+            .site-header { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); }
+        }
     </style>
 </head>
 <body>
     <header class="site-header">
-        <nav class="nav">
+        <nav class="nav" aria-label="主导航">
             <a class="nav-brand" href="#home">日本文化志 NIPPON</a>
             <ul class="nav-links">
                 <li><a href="#home" class="active">首页</a></li>
@@ -242,10 +335,20 @@
                 <li><a href="#east">和风东渐</a></li>
                 <li><a href="#etiquette">入境问俗</a></li>
             </ul>
+            <div class="nav-search-wrap">
+                <button id="search-toggle" class="search-toggle" type="button" aria-label="站内搜索" aria-expanded="false">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+                </button>
+                <div class="search-drop" id="search-drop" hidden>
+                    <input type="search" id="site-search" class="nav-search" placeholder="搜索内容…" aria-label="站内搜索">
+                </div>
+            </div>
         </nav>
     </header>
 
     <main class="main">
+        <div class="sr-only" id="page-live" aria-live="polite"></div>
+        <div class="search-count" id="search-count" aria-live="polite"></div>
         <!-- ============ 首页 ============ -->
         <section id="home" class="page active">
             <div class="hero">
@@ -1145,10 +1248,12 @@
     <footer class="site-footer">
         <div class="footer-inner">
             <span id="jp-date"></span>
-            <span class="footer-year">© 2026 日本文化志 NIPPON</span>
+            <span class="footer-year">© <span id="year">2026</span> 日本文化志 NIPPON</span>
             <span id="jp-time"></span>
         </div>
     </footer>
+
+    <button id="back-top" class="back-top" aria-label="回到顶部">↑</button>
 
     <script>
         (function () {
@@ -1163,12 +1268,26 @@
             function show(name) {
                 var target = name || 'home';
                 if (!document.getElementById(target)) { target = 'home'; }
+                // 切换板块时自动退出搜索模式
+                var si = document.getElementById('site-search');
+                if (si && si.value) {
+                    si.value = '';
+                    document.querySelectorAll('.card').forEach(function (c) { c.style.display = ''; });
+                    document.querySelectorAll('.page').forEach(function (p) { p.style.display = ''; });
+                    var ce = document.getElementById('search-count');
+                    if (ce) { ce.textContent = ''; }
+                }
                 pages.forEach(function (p) {
                     p.classList.toggle('active', p.id === target);
                 });
                 links.forEach(function (a) {
-                    a.classList.toggle('active', a.getAttribute('href') === '#' + target);
+                    var isActive = a.getAttribute('href') === '#' + target;
+                    a.classList.toggle('active', isActive);
+                    if (isActive) { a.setAttribute('aria-current', 'page'); }
+                    else { a.removeAttribute('aria-current'); }
                 });
+                var live = document.getElementById('page-live');
+                if (live) { live.textContent = '已切换到' + (titles[target] || '首页') + '板块'; }
                 document.title = '日本文化志 NIPPON';
                 window.scrollTo(0, 0);
             }
@@ -1332,6 +1451,77 @@
         });
     })();
 
+        // 年份自动更新
+        (function () {
+            var yEl = document.getElementById('year');
+            if (yEl) { yEl.textContent = new Date().getFullYear(); }
+        })();
+
+        // 回到顶部（滚动后出现）
+        (function () {
+            var backTop = document.getElementById('back-top');
+            if (!backTop) { return; }
+            window.addEventListener('scroll', function () {
+                backTop.classList.toggle('show', window.scrollY > 400);
+            }, { passive: true });
+            backTop.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        // 导航栏搜索按钮：点击后在按钮下方弹出搜索框
+        (function () {
+            var toggle = document.getElementById('search-toggle');
+            var drop = document.getElementById('search-drop');
+            var si = document.getElementById('site-search');
+            if (!toggle || !drop || !si) { return; }
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var show = drop.hidden;
+                drop.hidden = !show;
+                toggle.setAttribute('aria-expanded', String(!show));
+                if (!show) { si.focus(); }
+            });
+            document.addEventListener('click', function (e) {
+                if (!toggle.contains(e.target) && !drop.contains(e.target)) {
+                    drop.hidden = true;
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+            });
+        })();
+
+        // 站内搜索（跨板块过滤卡片）
+        (function () {
+            var input = document.getElementById('site-search');
+            var countEl = document.getElementById('search-count');
+            if (!input) { return; }
+            input.addEventListener('input', function () {
+                var q = this.value.trim().toLowerCase();
+                var pages = document.querySelectorAll('.page');
+                var cards = document.querySelectorAll('.card');
+                if (!q) {
+                    cards.forEach(function (c) { c.style.display = ''; });
+                    pages.forEach(function (p) { p.style.display = ''; });
+                    if (countEl) { countEl.textContent = ''; }
+                    var cur = null;
+                    try { cur = localStorage.getItem('nippon-page'); } catch (e) {}
+                    show(cur || 'home');
+                    return;
+                }
+                pages.forEach(function (p) { p.style.display = 'block'; });
+                var found = 0;
+                cards.forEach(function (c) {
+                    var hit = c.textContent.toLowerCase().indexOf(q) !== -1;
+                    c.style.display = hit ? '' : 'none';
+                    if (hit) { found++; }
+                });
+                pages.forEach(function (p) {
+                    var hasHit = Array.prototype.some.call(p.querySelectorAll('.card'), function (c) { return c.style.display !== 'none'; });
+                    p.style.display = hasHit ? 'block' : 'none';
+                });
+                if (countEl) { countEl.textContent = found ? '找到 ' + found + ' 条结果' : '没有找到相关内容'; }
+            });
+        })();
 
 </script>
 </body>
