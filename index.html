@@ -274,25 +274,46 @@
             transition: color 0.15s ease, background 0.15s ease;
         }
         .search-toggle:hover { color: var(--color-primary); background: var(--color-bg-secondary); }
+        .search-toggle[aria-expanded="true"] { color: var(--color-primary); background: var(--color-bg-secondary); }
         .search-toggle svg { display: block; }
         .search-drop {
-            position: absolute; top: calc(100% + 10px); right: 0; z-index: 950;
+            position: absolute; top: calc(100% + 22px); right: 0; z-index: 950;
             background: var(--color-bg); border: 1px solid var(--color-border);
-            border-radius: var(--radius); padding: 8px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            border-radius: 10px; padding: 3px 12px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
+            animation: searchDropIn 0.18s ease-out;
         }
         .search-drop[hidden] { display: none; }
-        .search-drop .nav-search { width: 220px; }
+        /* 顶部小箭头：指向放大镜按钮 */
+        .search-drop::before {
+            content: ''; position: absolute; top: -6px; right: 15px;
+            width: 10px; height: 10px;
+            background: var(--color-bg);
+            border-left: 1px solid var(--color-border);
+            border-top: 1px solid var(--color-border);
+            transform: rotate(45deg);
+        }
+        /* 聚焦时：边框转主色 + 柔和光晕 */
+        .search-drop:focus-within {
+            border-color: var(--color-primary);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 0 0 3px rgba(26, 58, 107, 0.10);
+        }
+        .search-box { display: flex; align-items: center; gap: 8px; }
+        .search-box-icon { flex-shrink: 0; color: var(--color-text-muted); transition: color 0.15s ease; }
+        .search-drop:focus-within .search-box-icon { color: var(--color-primary); }
 
         /* 站内搜索 */
         .nav-search {
-            font-size: 13px; padding: 6px 10px;
-            border: 1px solid var(--color-border); border-radius: var(--radius);
-            background: var(--color-bg); color: var(--color-text);
-            width: 170px; outline: none;
-            transition: border-color 0.15s ease;
+            border: none; background: transparent; outline: none;
+            font-size: 14px; color: var(--color-text); font-family: inherit;
+            width: 230px; padding: 9px 0;
         }
-        .nav-search:focus { border-color: var(--color-primary); }
+        .nav-search::placeholder { color: var(--color-text-muted); opacity: 0.85; }
+
+        @keyframes searchDropIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         .search-count {
             max-width: var(--content-max-width); margin: 0 auto; padding: 8px var(--space-3) 0;
             font-size: 13px; color: var(--color-text-muted);
@@ -340,7 +361,10 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
                 </button>
                 <div class="search-drop" id="search-drop" hidden>
-                    <input type="search" id="site-search" class="nav-search" placeholder="搜索内容…" aria-label="站内搜索">
+                    <div class="search-box">
+                        <svg class="search-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+                        <input type="search" id="site-search" class="nav-search" placeholder="搜索内容…" aria-label="站内搜索">
+                    </div>
                 </div>
             </div>
         </nav>
