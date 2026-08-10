@@ -3,1631 +3,553 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日本文化志 NIPPON</title>
-    <meta name="description" content="日本文化志 NIPPON——关于这个岛国的文化、旅行与日常：从一碗拉面到一座千年神社，慢慢写给你看。">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="日本文化志 NIPPON">
-    <meta property="og:description" content="关于这个岛国的文化、旅行与日常——从一碗拉面到一座千年神社，慢慢写给你看。">
-    <meta property="og:image" content="favicon.png">
-    <meta property="og:locale" content="zh_CN">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="日本文化志 NIPPON">
-    <meta name="twitter:description" content="关于这个岛国的文化、旅行与日常——从一碗拉面到一座千年神社，慢慢写给你看。">
-    <meta name="twitter:image" content="favicon.png">
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAwElEQVR42u3bwQ3DMAwDQC3U/T/dTZ2gQNDIrhUdgQzAewW2GfFD8tDEqmTTjCxdgpEPzejylxBySEaX/4oAYDJADg0AAAD2ln/H69K3FeGU0v/CiFOL74KIDuVXIkSH4isholv5aoToWL4SAUDX8lUI0bl8BQKA7uXvIgAA8IDydxAAAAAAAAAAAAAA+BUGAMCBCACHoo7FAbgacznqetwDiZMgVscjKe8EAQAAYC8AAIDRlNmc4aTprPH0xPn8B5JjO35//eUvAAAAAElFTkSuQmCC">
+    <title>蓝白社 · 收容物档案</title>
     <style>
-        /* =====================================================
-           日本文化志 NIPPON — 单文件版（含全站样式）
-           风格：NHK 式干净简洁 + 日式极简
-           ===================================================== */
         :root {
-            --color-bg: #FFFFFF;
-            --color-bg-secondary: #F7F7F7;
-            --color-text: #333333;
-            --color-text-secondary: #666666;
-            --color-text-muted: #999999;
-            --color-primary: #1A3A6B;
-            --color-primary-hover: #142E55;
-            --color-accent: #C8102E;
-            --color-border: #E5E5E5;
-            --color-surface: #FFFFFF;
-            --color-header-bg: #FFFFFF;
-            --color-nav-link: #666666;
-            --font-family: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
-                           "Helvetica Neue", Arial, Inter, "PingFang SC",
-                           "Microsoft YaHei", system-ui, sans-serif;
-            --space-1: 8px;
-            --space-2: 16px;
-            --space-3: 24px;
-            --space-4: 40px;
-            --space-5: 64px;
-            --content-max-width: 1080px;
-            --radius: 6px;
+            --bg: #d5d5d5;
+            --bg-card: #e7e7e7;
+            --bg-card-hover: #efefef;
+            --panel: #efefef;
+            --border: #a6a6a6;
+            --text: #212121;
+            --text-dim: #6d6d6d;
+            --accent: #333;
+            --accent2: #595959;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+        /* 怪核噪点纹理 */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: .08;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
         body {
-            font-family: var(--font-family);
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--color-text);
-            background: var(--color-bg);
+            font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(1100px 500px at 50% -12%, #e6e6e6 0%, transparent 65%),
+                        var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            line-height: 1.7;
         }
-        a { color: var(--color-primary); text-decoration: none; transition: color 0.15s ease; }
-        a:hover { color: var(--color-primary-hover); }
-        img { max-width: 100%; display: block; }
 
-        /* 顶部导航 */
-        .site-header { position: -webkit-sticky; position: sticky; top: 0; z-index: 1000; background: var(--color-header-bg); border-bottom: 1px solid var(--color-border); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09); }
-        .nav {
+        /* 背景星空粒子 */
+        #stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wrap {
             position: relative;
-            max-width: var(--content-max-width);
+            z-index: 1;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 var(--space-3);
-            height: 64px;
+            padding: 30px 20px 80px;
+        }
+
+        /* ===== 顶部 ===== */
+        header {
+            text-align: center;
+            padding: 44px 0 34px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        /* 机密戳记 */
+        header::after {
+            content: "◤ 机密 · 非授权阅览即违法 ◢";
+            position: absolute;
+            right: 6px; top: 6px;
+            font-size: .6rem;
+            letter-spacing: 2px;
+            color: #8a8a8a;
+            border: 1px solid #b3b3b3;
+            padding: 3px 10px;
+            transform: rotate(2deg);
+            opacity: .8;
+        }
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 10px;
+            color: #1f1f1f;
+            text-shadow: 3px 3px 0 rgba(0,0,0,.16), 6px 6px 0 rgba(0,0,0,.07), 0 0 40px rgba(0,0,0,.10);
+            position: relative;
+            display: inline-block;
+        }
+        .subtitle {
+            margin-top: 12px;
+            color: var(--text-dim);
+            font-size: .92rem;
+            letter-spacing: 4px;
+        }
+        .stats {
+            margin-top: 20px;
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            color: var(--text-dim);
+            font-size: .82rem;
+        }
+        .stats span {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 14px;
+            box-shadow: 0 2px 0 rgba(0,0,0,.06);
+        }
+        .stats b { color: var(--accent2); font-size: 1.05rem; margin-right: 4px; }
+
+        /* ===== 工具栏 ===== */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
             align-items: center;
-            justify-content: space-between;
-            gap: var(--space-3);
+            margin-bottom: 26px;
         }
-        .nav-brand {
-            font-size: 18px; font-weight: 700; letter-spacing: 0.02em;
-            color: var(--color-primary); white-space: nowrap;
+        .search-box {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
         }
-        .nav-links {
-            display: flex; gap: var(--space-3); list-style: none;
-            margin-left: auto; padding: 8px 64px 8px 0;
-            flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; min-width: 0;
-            align-items: center;
-            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: .95rem;
+            outline: none;
+            transition: border-color .2s;
         }
-        .nav-links::-webkit-scrollbar { display: none; }
-        .nav-links a {
-            font-size: 14px; line-height: 1.4; color: var(--color-nav-link);
-            padding: 6px 2px; border-bottom: 2px solid transparent;
-            transition: color 0.15s ease, border-color 0.15s ease; white-space: nowrap;
-        }
-        .nav-links a:hover { color: var(--color-primary); border-bottom-color: var(--color-primary); }
-        .nav-links a.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+        .search-box input:focus { border-color: var(--accent); }
+        .search-box .icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-dim); }
 
-        /* 主内容 */
-        .main {
-            flex: 1; width: 100%; max-width: var(--content-max-width);
-            margin: 0 auto; padding: var(--space-5) var(--space-3) 80px;
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
-        .page { display: none; }
-        .page.active { display: block; }
-
-        .page-header { margin-bottom: var(--space-5); max-width: 800px; }
-        .page-header .kicker {
-            font-size: 13px; color: var(--color-text-muted);
-            letter-spacing: 0.08em; margin-bottom: var(--space-2);
+        .chip {
+            padding: 8px 15px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--text-dim);
+            font-size: .85rem;
+            cursor: pointer;
+            user-select: none;
+            transition: all .2s;
         }
-        .page-header h1 {
-            font-size: 32px; font-weight: 700; line-height: 1.35; letter-spacing: 0.02em;
-        }
-        .page-header .lead {
-            margin-top: var(--space-2); font-size: 16px;
-            color: var(--color-text-secondary); line-height: 1.75;
-            text-wrap: pretty;
-        }
-
-        .section-title {
-            margin: var(--space-5) 0 var(--space-3);
-            font-size: 22px; font-weight: 700; line-height: 1.4; letter-spacing: 0.02em;
-            padding-bottom: var(--space-2); border-bottom: 1px solid var(--color-border);
-        }
-        .section-title:first-of-type { margin-top: 0; }
-
-        .hero { max-width: 760px; padding: var(--space-4) 0 var(--space-5); }
-        .hero .kicker {
-            font-size: 13px; color: var(--color-text-muted);
-            letter-spacing: 0.08em; margin-bottom: var(--space-2);
-        }
-        .hero h1 {
-            font-size: 32px; font-weight: 700; line-height: 1.35; letter-spacing: 0.02em;
-        }
-        .hero .lead {
-            margin-top: var(--space-2); font-size: 16px;
-            color: var(--color-text-secondary); line-height: 1.75; max-width: 600px;
-            text-wrap: pretty;
+        .chip:hover { border-color: var(--accent); color: var(--text); }
+        .chip.active {
+            background: #2e2e2e;
+            border-color: transparent;
+            color: #fff;
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-3); }
-        .grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
-        .grid.cols-fixed-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        @media (max-width: 640px) { .grid.cols-fixed-2 { grid-template-columns: 1fr; } }
+        /* ===== 卡片网格 ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 18px;
+        }
         .card {
-            background: var(--color-bg); border: 1px solid var(--color-border);
-            border-radius: var(--radius); padding: var(--space-3);
-            display: flex; flex-direction: column;
-            transition: border-color 0.15s ease;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            cursor: pointer;
+            transition: transform .2s, border-color .2s, box-shadow .2s, background .2s;
+            position: relative;
+            overflow: hidden;
         }
-        .card:hover { border-color: var(--color-primary); }
-        .card-wide { grid-column: 1 / -1; }
-        .card .card-index {
-            font-size: 12px; color: var(--color-text-muted);
-            letter-spacing: 0.05em; margin-bottom: var(--space-2);
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px; height: 100%;
+            background: var(--lvl-color, var(--accent));
+            opacity: .8;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 30px rgba(0,0,0,.45);
+            background: var(--bg-card-hover);
+        }
+        /* 悬停档案扫描线 */
+        .card .scan {
+            position: absolute;
+            left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,.25), transparent);
+            top: -2px;
+            opacity: 0;
+            transition: opacity .2s;
+            pointer-events: none;
+        }
+        .card:hover .scan { opacity: 1; animation: scan 1.6s linear infinite; }
+        @keyframes scan { 0% { top: -2px; } 100% { top: 100%; } }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .card-id { font-size: .8rem; color: var(--text-dim); font-weight: 700; letter-spacing: 1px; }
+        .badge {
+            font-size: .72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+            color: #fff;
+            letter-spacing: 1px;
         }
         .card h3 {
-            font-size: 18px; font-weight: 500; line-height: 1.4;
-            margin-bottom: var(--space-1); color: var(--color-text);
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+            color: var(--text);
+            font-weight: 800;
+            letter-spacing: .5px;
         }
-        .card h3 a { color: var(--color-text); }
-        .card h3 a:hover { color: var(--color-primary); }
-        .card p { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; flex: 1; }
-        .card .card-meta { margin-top: var(--space-2); font-size: 12px; color: var(--color-text-muted); }
-        .card .card-link { margin-top: var(--space-2); font-size: 13px; font-weight: 500; }
+        .card .category { font-size: .78rem; color: var(--text-dim); margin-bottom: 10px; }
+        .card .threat {
+            font-size: .85rem;
+            color: #3c3c3c;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag {
+            font-size: .7rem;
+            padding: 2px 9px;
+            border-radius: 999px;
+            background: rgba(0,0,0,.05);
+            color: #555;
+            border: 1px solid rgba(0,0,0,.18);
+        }
+        /* 档案水印 */
+        .card::after {
+            content: "机密档案";
+            position: absolute;
+            right: 10px; bottom: 6px;
+            font-size: .55rem;
+            letter-spacing: 3px;
+            color: rgba(0,0,0,.16);
+            pointer-events: none;
+        }
 
-        .article { max-width: 800px; }
-        .article h2 {
-            font-size: 22px; font-weight: 700; line-height: 1.4; letter-spacing: 0.02em;
-            margin: var(--space-5) 0 var(--space-2);
-        }
-        .article h2:first-child { margin-top: 0; }
-        .article h3 {
-            font-size: 18px; font-weight: 500; line-height: 1.4;
-            margin: var(--space-4) 0 var(--space-2);
-        }
-        .article p { font-size: 15px; line-height: 1.75; color: var(--color-text); margin-bottom: var(--space-2); }
-        .article ul, .article ol {
-            margin: var(--space-2) 0 var(--space-3) var(--space-3);
-            font-size: 15px; line-height: 1.75;
-        }
-        .article li { margin-bottom: var(--space-1); }
-        .article strong { font-weight: 700; color: var(--color-text); }
-        .article blockquote {
-            margin: var(--space-3) 0; padding: var(--space-2) var(--space-3);
-            border-left: 4px solid var(--color-primary); background: var(--color-bg-secondary);
-            border-radius: 0 var(--radius) var(--radius) 0;
-            font-size: 15px; color: var(--color-text-secondary); line-height: 1.75;
+        /* ===== 空状态 ===== */
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+            border: 1px dashed var(--border);
+            border-radius: 14px;
         }
 
-        .table-wrap { overflow-x: auto; margin: var(--space-3) 0; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6; }
-        th, td { padding: 10px 16px; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: top; }
-        th { font-weight: 700; color: var(--color-text); background: var(--color-bg-secondary); }
-        tr:last-child td { border-bottom: none; }
-
-        .notice {
-            margin: var(--space-4) 0; max-width: 800px;
-            background: var(--color-bg-secondary); border-left: 4px solid var(--color-primary);
-            border-radius: var(--radius); padding: 20px 24px;
+        /* ===== 详情弹窗 ===== */
+        .modal-mask {
+            position: fixed;
+            inset: 0;
+            background: rgba(140,140,140,.55);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
         }
-        .notice-title {
-            font-size: 14px; font-weight: 700; color: var(--color-primary);
-            letter-spacing: 0.02em; margin-bottom: var(--space-1);
-        }
-        .notice p, .notice li { font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; }
-
-        .update-list { list-style: none; max-width: 800px; }
-        .update-list li {
-            display: flex; gap: var(--space-3); align-items: baseline;
-            padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border);
-            font-size: 14px;
-        }
-        .update-list li:last-child { border-bottom: none; }
-        .update-list .date { color: var(--color-text-muted); font-size: 12px; white-space: nowrap; min-width: 76px; }
-
-        .quote-block {
-            margin: var(--space-5) 0; padding: var(--space-4) 0;
-            border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);
-            max-width: 800px;
-        }
-        .quote-block .quote-text { font-size: 18px; font-weight: 500; line-height: 1.6; color: var(--color-text); letter-spacing: 0.02em; }
-        .quote-block .quote-author { margin-top: var(--space-2); font-size: 13px; color: var(--color-text-muted); }
-
-        .site-footer { border-top: 1px solid var(--color-border); padding: var(--space-3) 0; }
-        .footer-inner {
-            max-width: var(--content-max-width); margin: 0 auto; padding: 0 var(--space-3);
-            display: flex; justify-content: space-between; align-items: center; gap: var(--space-2);
-            font-size: 12px; color: var(--color-text-muted);
+        .modal-mask.show { display: flex; }
+        .modal {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 720px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 34px;
             position: relative;
+            box-shadow: 0 30px 80px rgba(0,0,0,.6);
         }
-        .footer-inner .footer-year {
-            position: absolute; left: 50%; transform: translateX(-50%);
-            white-space: nowrap;
+        .modal .close {
+            position: absolute;
+            top: 16px; right: 18px;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .2s;
         }
+        .modal .close:hover { color: #fff; border-color: var(--accent); }
+        .modal-head {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+        .modal-head .m-id { font-size: .85rem; color: var(--text-dim); letter-spacing: 1px; }
+        .modal-head h2 { font-size: 1.7rem; color: var(--text); margin: 6px 0; font-weight: 800; }
+        .modal-head .m-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .section { margin-bottom: 18px; }
+        .section h4 {
+            font-size: .8rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section h4::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+        .section p { font-size: .93rem; color: var(--text); }
 
-        @media (max-width: 768px) {
-            .nav {
-                height: 64px; padding: 0 var(--space-2);
-                flex-direction: row; align-items: center; gap: var(--space-2);
-            }
-            .nav-links { gap: var(--space-2) var(--space-3); flex: 1; min-width: 0; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; padding: 8px 64px 8px 0; align-items: center; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-            .nav-links::-webkit-scrollbar { display: none; }
-            .main { padding: var(--space-4) var(--space-2) 56px; }
-            .hero h1, .page-header h1 { font-size: 28px; }
-            .footer-inner { flex-direction: column; gap: var(--space-1); text-align: center; }
-            .footer-inner .footer-year { position: static; transform: none; }
+        footer {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: .8rem;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            letter-spacing: 1px;
         }
+        footer a { color: var(--accent2); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
 
-        /* 键盘焦点可见性（无障碍） */
-        :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: 2px; }
-
-        /* 视觉隐藏（供屏幕阅读器） */
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-
-        /* 回到顶部（滚动后出现） */
-        .back-top {
-            position: fixed; right: 24px; bottom: 80px; z-index: 900;
-            width: 44px; height: 44px; border-radius: 50%;
-            background: var(--color-primary); color: #FFFFFF;
-            font-size: 18px; line-height: 1; border: none; cursor: pointer;
-            opacity: 0; pointer-events: none; transform: translateY(8px);
-            transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-        .back-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .back-top:hover { background: var(--color-primary-hover); }
-
-        /* 导航栏搜索按钮（放大镜）+ 下拉搜索框 */
-        .nav-search-wrap { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; }
-        .search-toggle {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: none; border: none; cursor: pointer;
-            color: var(--color-nav-link);
-            transition: color 0.15s ease, background 0.15s ease;
-        }
-        .search-toggle:hover { color: var(--color-primary); background: var(--color-bg-secondary); }
-        .search-toggle[aria-expanded="true"] { color: var(--color-primary); background: var(--color-bg-secondary); }
-        .search-toggle svg { display: block; }
-        .search-drop {
-            position: absolute; top: calc(100% + 22px); right: 0; z-index: 950;
-            background: var(--color-bg); border: 1px solid var(--color-border);
-            border-radius: 10px; padding: 3px 12px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.06);
-            animation: searchDropIn 0.18s ease-out;
-        }
-        .search-drop[hidden] { display: none; }
-        /* 顶部小箭头：指向放大镜按钮 */
-        .search-drop::before {
-            content: ''; position: absolute; top: -6px; right: 15px;
-            width: 10px; height: 10px;
-            background: var(--color-bg);
-            border-left: 1px solid var(--color-border);
-            border-top: 1px solid var(--color-border);
-            transform: rotate(45deg);
-        }
-        /* 聚焦时：边框转主色 + 柔和光晕 */
-        .search-drop:focus-within {
-            border-color: var(--color-primary);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 0 0 3px rgba(26, 58, 107, 0.10);
-        }
-        .search-box { display: flex; align-items: center; gap: 8px; }
-        .search-box-icon { flex-shrink: 0; color: var(--color-text-muted); transition: color 0.15s ease; }
-        .search-drop:focus-within .search-box-icon { color: var(--color-primary); }
-
-        /* 站内搜索 */
-        .nav-search {
-            border: none; background: transparent; outline: none;
-            font-size: 14px; color: var(--color-text); font-family: inherit;
-            width: 230px; padding: 9px 0;
-        }
-        .nav-search::placeholder { color: var(--color-text-muted); opacity: 0.85; }
-
-        @keyframes searchDropIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .search-count {
-            max-width: var(--content-max-width); margin: 0 auto; padding: 8px var(--space-3) 0;
-            font-size: 13px; color: var(--color-text-muted);
-        }
-        .search-count:empty { display: none; }
-
-        /* 深色模式（跟随系统） */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --color-bg: #141414;
-                --color-bg-secondary: #1B1B1B;
-                --color-surface: #1E1E1E;
-                --color-text: #E8E8E8;
-                --color-text-secondary: #B8B8B8;
-                --color-text-muted: #8A8A8A;
-                --color-border: #333333;
-                --color-primary: #8FAFDC;
-                --color-primary-hover: #A6C2E8;
-                --color-accent: #E0606E;
-                --color-header-bg: #1E1E1E;
-                --color-nav-link: #C8C8C8;
-            }
-            .site-header { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); }
+        @media (max-width: 640px) {
+            .logo { font-size: 1.9rem; letter-spacing: 3px; }
+            .grid { grid-template-columns: 1fr; }
+            .modal { padding: 24px; }
         }
     </style>
 </head>
 <body>
-    <header class="site-header">
-        <nav class="nav" aria-label="主导航">
-            <a class="nav-brand" href="#home">日本文化志 NIPPON</a>
-            <ul class="nav-links">
-                <li><a href="#home" class="active">首页</a></li>
-                <li><a href="#about">关于本站</a></li>
-                <li><a href="#culture">日本文化</a></li>
-                <li><a href="#seasons">岁时记</a></li>
-                <li><a href="#travel">旅行与地方</a></li>
-                <li><a href="#japanese">实用日语</a></li>
-                <li><a href="#food">美食</a></li>
-                <li><a href="#pop">流行文化</a></li>
-                <li><a href="#east">和风东渐</a></li>
-                <li><a href="#etiquette">入境问俗</a></li>
-            </ul>
-            <div class="nav-search-wrap">
-                <button id="search-toggle" class="search-toggle" type="button" aria-label="站内搜索" aria-expanded="false">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-                </button>
-                <div class="search-drop" id="search-drop" hidden>
-                    <div class="search-box">
-                        <svg class="search-box-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-                        <input type="search" id="site-search" class="nav-search" placeholder="搜索内容…" aria-label="站内搜索">
-                    </div>
-                </div>
+    <canvas id="stars"></canvas>
+
+    <div class="wrap">
+        <header>
+            <div class="logo">蓝 白 社</div>
+            <div class="subtitle">收 容 物 机 密 档 案 · 非 授 权 人 员 勿 阅</div>
+            <div class="stats">
+                <span><b id="statTotal">0</b>件已收容</span>
+                <span><b id="statA">0</b>件α温和</span>
+                <span><b id="statB">0</b>件β低危</span>
+                <span><b id="statG">0</b>件γ中危</span>
+                <span><b id="statD">0</b>件δ高危</span>
+                <span><b id="statO">0</b>件ω特危</span>
             </div>
-        </nav>
-    </header>
+        </header>
 
-    <main class="main">
-        <div class="sr-only" id="page-live" aria-live="polite"></div>
-        <div class="search-count" id="search-count" aria-live="polite"></div>
-        <!-- ============ 首页 ============ -->
-        <section id="home" class="page active">
-            <div class="hero">
-                <div class="kicker">NIPPON NOTE</div>
-                <h1>日本，是一册读不完的手帖</h1>
-                <p class="lead">关于这个岛国的文化、旅行与日常——从一碗拉面到一座千年神社，慢慢写给你看。</p>
+        <div class="toolbar">
+            <div class="search-box">
+                <span class="icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </span>
+                <input type="text" id="search" placeholder="搜索编号 / 名称 / 关键词…" autocomplete="off">
             </div>
-
-            <h2 class="section-title">精选内容</h2>
-            <div class="grid cols-2">
-                <div class="card">
-                    <div class="card-index">CULTURE</div>
-                    <h3><a href="#culture">日本文化</a></h3>
-                    <p>和服、茶道、祭典与枯山水，以及便利店、居酒屋里的现代日常。传统与当下，在这里并存。</p>
-                    <a class="card-link" href="#culture">进入文化板块 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">KISETSU</div>
-                    <h3><a href="#seasons">岁时记</a></h3>
-                    <p>十二个月的日本年历：花期、祭典与当季美食。想知道「什么时候去最好」，看这一页。</p>
-                    <a class="card-link" href="#seasons">进入岁时记 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">TRAVEL</div>
-                    <h3><a href="#travel">旅行与地方</a></h3>
-                    <p>东京的霓虹、京都的町屋、北海道的雪。按地区整理的景点、行程与实用信息。</p>
-                    <a class="card-link" href="#travel">进入旅行板块 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">NIHONGO</div>
-                    <h3><a href="#japanese">实用日语</a></h3>
-                    <p>出发前学几句，旅途会顺很多。寒暄、点餐、问路、购物，都附读音，照着念就行。</p>
-                    <a class="card-link" href="#japanese">进入实用日语 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">FOOD</div>
-                    <h3><a href="#food">美食</a></h3>
-                    <p>从寿司、拉面到便利店甜品，一份关于「吃」的日本清单，也附简单做法。</p>
-                    <a class="card-link" href="#food">进入美食板块 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">POP CULTURE</div>
-                    <h3><a href="#pop">流行文化</a></h3>
-                    <p>动漫、漫画、游戏、J-POP 与电影。这个国家造梦的能力，世界有目共睹。</p>
-                    <a class="card-link" href="#pop">进入流行文化板块 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">TOZEN</div>
-                    <h3><a href="#east">和风东渐</a></h3>
-                    <p>从「社会」「电话」到柯南与迪迦——日本如何悄悄影响了一代中国人。语言与童年，都在这一页。</p>
-                    <a class="card-link" href="#east">进入和风东渐 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">ETIQUETTE</div>
-                    <h3><a href="#etiquette">入境问俗</a></h3>
-                    <p>艺妓不是你想的那样——还有筷子、电车、温泉里那些「没说出口的规矩」。避免冒犯，是旅途最大的善意。</p>
-                    <a class="card-link" href="#etiquette">进入入境问俗 →</a>
-                </div>
-                <div class="card">
-                    <div class="card-index">ABOUT</div>
-                    <h3><a href="#about">关于本站</a></h3>
-                    <p>为什么日本值得喜欢？这个网站为什么存在、站长的初心，以及它缓慢生长的态度。</p>
-                    <a class="card-link" href="#about">进入关于本站 →</a>
-                </div>
+            <div class="filters" id="levelFilters">
+                <span class="chip active" data-level="">全部</span>
+                <span class="chip" data-level="α">α级</span>
+                <span class="chip" data-level="β">β级</span>
+                <span class="chip" data-level="γ">γ级</span>
+                <span class="chip" data-level="δ">δ级</span>
+                <span class="chip" data-level="ω">ω级</span>
             </div>
-
-            <h2 class="section-title">最新更新</h2>
-            <ul class="update-list">
-                <li><span class="date">2026.08.06</span><a href="#etiquette">「入境问俗」上线：那些没说出口的日本规矩</a></li>
-                <li><span class="date">2026.08.02</span><a href="#east">「和风东渐」上线：从和制汉语到童年记忆</a></li>
-                <li><span class="date">2026.07.28</span><a href="#seasons">「岁时记」上线：十二个月的日本年历</a></li>
-                <li><span class="date">2026.07.20</span><a href="#japanese">「实用日语」上线：旅行常用语速查表</a></li>
-                <li><span class="date">2026.07.12</span><a href="#culture">「日本文化」更新：现代生活文化——便利店与居酒屋</a></li>
-                <li><span class="date">2026.07.01</span><a href="#travel">「旅行与地方」新增：北海道冬季行程建议</a></li>
-                <li><span class="date">2026.06.18</span><a href="#food">「美食」新增：亲子丼的家庭做法</a></li>
-            </ul>
-
-            <div class="quote-block">
-                <p class="quote-text">「一期一会（いちごいちえ）——每一次相遇，都只有一次。」</p>
-                <p class="quote-author">— 来自茶道的精神，也是这个网站的态度</p>
-            </div>
-        </section>
-
-        <!-- ============ 关于本站 ============ -->
-        <section id="about" class="page">
-            <div class="page-header">
-                <div class="kicker">ABOUT</div>
-                <h1>关于本站</h1>
-                <p class="lead">为什么日本值得喜欢？这个网站想慢慢讲给你听。</p>
-            </div>
-            <div class="article">
-                <h2>为什么日本值得喜欢</h2>
-                <p>喜欢一个国家，往往不是因为它的完美，而是因为它触动了你。以下是一些反复被提起的理由，也是这个网站的出发点。</p>
-                <ul>
-                    <li><strong>秩序与安全。</strong>列车几乎从不晚点，街道干净到可以席地而坐，深夜独行也少有不安。这种「秩序感」本身就有一种安抚人心的力量。</li>
-                    <li><strong>传统与现代的共存。</strong>一边是千年的神社和茶室，一边是发达到极致的便利店与电车网络。两种时间在同一座城市里并行，毫不违和。</li>
-                    <li><strong>四季之美。</strong>春樱、夏祭、秋枫、冬雪。日本人把季节当作生活的一部分，饮食、器物、语言里都藏着「季语」。</li>
-                    <li><strong>细节与匠心。</strong>一个饭团、一张车票、一扇障子门，都有人认真对待。职人（しょくにん）精神让「把事情做好」成为一种尊严。</li>
-                    <li><strong>待客之道（おもてなし）。</strong>不是刻意的服务，而是「在对方开口之前，先想到对方需要什么」的体贴。</li>
-                    <li><strong>造梦的能力。</strong>从宫崎骏到任天堂，从 City Pop 到深夜食堂，这个国家擅长把日常变成故事，再把故事变成记忆。</li>
-                </ul>
-                <blockquote>「一期一会」——每一次相遇都只有一次。对待一餐饭、一场雨、一位旅人，都要像对待一生只有一次的会面那样认真。</blockquote>
-                <h2>关于本站</h2>
-                <p>「日本文化志 NIPPON」是一个个人性质的中文网站，由一位长期关注日本文化、旅行与生活的作者维护。站点不求大而全，只希望用干净的方式，把真正值得了解的内容整理出来。</p>
-                <p>站内目前分为这些板块：</p>
-                <ul>
-                    <li><strong>日本文化</strong> — 传统技艺与当代生活</li>
-                    <li><strong>岁时记</strong> — 十二个月的日本年历</li>
-                    <li><strong>旅行与地方</strong> — 按地区整理的体验与攻略</li>
-                    <li><strong>实用日语</strong> — 旅行常用语速查表</li>
-                    <li><strong>美食</strong> — 料理、小店与简单做法</li>
-                    <li><strong>流行文化</strong> — 动漫、游戏、音乐与电影</li>
-                    <li><strong>和风东渐</strong> — 语言与童年：日本影响中国的一页</li>
-                    <li><strong>入境问俗</strong> — 艺妓、筷子与温泉：避免因不了解而冒犯</li>
-                    <li><strong>关于本站</strong> — 你现在看到的这一页</li>
-                </ul>
-                <p>内容更新频率不高，但每一条都经过整理与核实。比起速度，更在意准确与克制——这也是本站设计的初衷。</p>
-                <h2>站长寄语</h2>
-                <p>如果你还没去过日本，希望这里能成为你出发前的一盏灯；如果你已经回来，希望这里能帮你把旅途的余温留得更久一点。</p>
-                <p>如果这其中有任何错误或遗漏，欢迎指正。网站会一直缓慢、安静地生长下去。</p>
-                <div class="notice">
-                    <div class="notice-title">关于引用与版权</div>
-                    <p>本站文字为原创整理，引用日文词汇时附注读音。图片与外部资料均保留原出处链接，请勿将本站内容用于商业用途。</p>
-                </div>
-                <h2>推荐关注</h2>
-                <div class="notice">
-                    <div class="notice-title">曾颖</div>
-                    <p>前澎湃新闻驻日特派员，现金融科技博主。早稻田大学金融系毕业，TEDx 演讲嘉宾，曾入选福布斯中国 30 岁以下精英榜。</p>
-                    <p>为什么推荐她——</p>
-                    <ul>
-                        <li><strong>视角稀缺。</strong>驻日记者与金融从业者的双重身份，让她看日本的维度很少有人能同时具备。</li>
-                        <li><strong>深度在地。</strong>旅居日本十余年，写的是真实的生活与观察，而不是游客视角的攻略。</li>
-                        <li><strong>别样人生。</strong>34 岁退休、环游世界，潜水、赛车、冰攀样样在行——把日子过成了许多人想象的样子。</li>
-                    </ul>
-                    <p><a href="https://x.com/zengying1107" target="_blank" rel="noopener">X（Twitter）· @zengying1107</a> ｜ <a href="https://www.weibo.com/u/1908834133" target="_blank" rel="noopener">微博</a></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ 日本文化 ============ -->
-        <section id="culture" class="page">
-            <div class="page-header">
-                <div class="kicker">CULTURE</div>
-                <h1>日本文化</h1>
-                <p class="lead">从和服、茶道与千年神社，到便利店、居酒屋与深夜电车。传统与日常，其实是同一件事的两面。</p>
-            </div>
-            <h2 class="section-title">传统文化</h2>
-            <div class="article">
-                <h3>和服（わふく）</h3>
-                <p>和服是日本最经典的民族服饰。按场合与季节有严格的穿法：振袖（未婚女性正式礼服）、留袖（已婚女性）、浴衣（夏日简化版）等。腰带的系法、花纹的方向、季节的花色，处处是讲究。如今和服多在成人式、婚礼、花火大会等场合穿着，京都是最容易看到和服身影的城市。</p>
-                <h3>茶道（さどう / ちゃどう）</h3>
-                <p>茶道不仅是喝茶，更是一套完整的「修行」：以「和敬清寂」为精神，讲究点前（点茶程序）、道具、空间与季节感。核心是待客之心与「一期一会」的觉悟。若想体验，京都有大量茶道体验课程，不必懂日语也能参加。</p>
-                <h3>花道与书道</h3>
-                <p>花道（華道・かどう）以插花表达自然与人的关系，池坊是最古老的流派；书道（しょどう）则将汉字与假名的书写提升为艺术。两者都讲究「留白」——这与本网站的设计理念意外地一致。</p>
-                <h3>祭典（まつり）</h3>
-                <p>日本全国每年有数十万个祭典。最著名的有京都「祇园祭」（7月）、大阪「天神祭」（7月）、青森「睡魔祭」（8月）、东京「神田祭」（5月）。夏日祭通常有花火、屋台（小吃摊）、抬神轿与盂兰盆舞，是感受日本「共同体热情」最好的窗口。</p>
-                <h3>建筑：神社、寺院与枯山水</h3>
-                <p>神社（神道教）与寺院（佛教）是日本建筑的两大系统：严岛神社的海上鸟居、京都清水寺的悬空舞台、奈良东大寺的大佛殿，各具震撼。而枯山水（かれさんすい）——以白砂与石块模拟山水，是禅宗庭园的极致，龙安寺的石庭是最著名的代表。</p>
-                <h3>礼仪</h3>
-                <p>日本礼仪的核心是「不给别人添麻烦」。电车不打电话、公共场合不喧哗、用餐说「いただきます」（我开动了）、进门脱鞋、泡温泉前先洗净身体。这些看似琐碎的规矩，构成了日本人「温柔的距离感」。</p>
-                <h3>艺妓与舞妓</h3>
-                <p>艺妓（げいこ / 芸者）是精通舞蹈、三味线与谈话的表演艺术家，多在祇园等花街的高档茶屋待客；舞妓（まいこ）是见习阶段的年轻艺妓，妆容与服饰更为华丽。两者并非「风月职业」，而是传承数百年的传统艺能。京都祇园是欣赏她们最合适的场所。</p>
-                <h3>舞台艺术：能、歌舞伎、文乐、相扑</h3>
-                <p>能（のう）是佩戴面具、节奏缓慢的古典戏剧；歌舞伎（かぶき）以夸张的舞台与妆容著称；文乐是净琉璃人形净琉璃的傀儡戏；相扑则是被称为「国技」的传统竞技。前三者（能、歌舞伎、文乐）均被列入联合国教科文组织非物质文化遗产，共同代表日本表演艺术的不同面向。</p>
-            </div>
-            <h2 class="section-title">现代生活文化</h2>
-            <div class="article">
-                <h3>便利店文化（コンビニ）</h3>
-                <p>日本的便利店（7-Eleven、FamilyMart、Lawson）是生活基础设施：饭团、便当、关东煮、ATM、打印、票务、快递代收一应俱全，24 小时营业。深夜的一碗关东煮或一份炸鸡，是无数人关于日本的味觉记忆。</p>
-                <h3>电车与通勤</h3>
-                <p>准时到近乎奇迹的铁路系统，是日本城市运转的心脏。上班族在早高峰的电车里安静看手机或读书，「通勤时间」被压缩成一种独特的都市仪式。车站便当（駅弁）与电车零食，也让移动本身成为一种文化。</p>
-                <h3>居酒屋（いざかや）</h3>
-                <p>居酒屋是日本人下班后的「第二客厅」：先来一杯生啤，配毛豆和枝豆，再按节奏点上串烧、刺身、炸物。点单随性、气氛放松，是观察现代日本社交文化最真实的窗口。</p>
-                <h3>自动贩卖机（じどうはんばいき）</h3>
-                <p>全日本约有 500 万台自动贩卖机，密度全球第一。除了饮料，还卖冰淇淋、关东煮、雨伞、甚至拉面。它象征着日本人对「便利」近乎偏执的追求。</p>
-                <h3>季节行事</h3>
-                <p>春有花見（赏樱野餐），夏有花火大会，秋有红叶狩，冬有年末年始——除夕吃荞麦面（年越しそば）、新年参拜（初詣）、送贺年卡。季节感不是装饰，而是日本人生活节奏本身。</p>
-                <h3>おもてなし 与 職人精神</h3>
-                <p>「おもてなし」是无微不至却不打扰的待客之道；「職人（しょくにん）」是数十年如一日打磨一门手艺的人。从寿司师傅到街角修伞匠，日本文化相信：<strong>把一件小事做到极致，本身就是一种尊严</strong>。</p>
-            </div>
-            <div class="notice">
-                <div class="notice-title">建议</div>
-                <p>若想快速感受传统文化，推荐先去京都：清水寺、祇园、茶道体验、和服租借可以安排在一天之内；想了解现代生活文化，东京的便利店、居酒屋与深夜电车则是最好的课堂。</p>
-            </div>
-        </section>
-
-        <!-- ============ 岁时记 ============ -->
-        <section id="seasons" class="page">
-            <div class="page-header">
-                <div class="kicker">KISETSU · 季節</div>
-                <h1>岁时记</h1>
-                <p class="lead">一张按月份走的日本年历：花期、祭典、当季美食与行事。想知道「什么时候去最好」，先看这一页。</p>
-            </div>
-            <h2 class="section-title">四季概览</h2>
-            <div class="article">
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>季节</th><th>月份</th><th>代表风物</th><th>适合做什么</th></tr>
-                        <tr><td>春</td><td>3–5月</td><td>樱花、新绿</td><td>花見、京都漫步</td></tr>
-                        <tr><td>夏</td><td>6–8月</td><td>紫阳花、花火</td><td>祭典、花火大会、海边</td></tr>
-                        <tr><td>秋</td><td>9–11月</td><td>红叶、栗、鲑</td><td>红叶狩、温泉、「食欲之秋」</td></tr>
-                        <tr><td>冬</td><td>12–2月</td><td>雪、灯饰</td><td>滑雪、温泉、正月</td></tr>
-                    </table>
-                </div>
-            </div>
-            <h2 class="section-title">十二月手帖</h2>
-            <div class="grid cols-2">
-                <div class="card">
-                    <div class="card-index">1月 · 睦月（むつき）· 冬</div>
-                    <h3>新春与初詣</h3>
-                    <p><strong>自然</strong>松、梅、初雪</p>
-                    <p><strong>行事</strong>初詣（新年参拜）、成人式、書き初め</p>
-                    <p><strong>味</strong>御節料理、雑煮、鏡餅</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">2月 · 如月（きさらぎ）· 冬末</div>
-                    <h3>节分与雪</h3>
-                    <p><strong>自然</strong>梅（梅まつり）、雪景</p>
-                    <p><strong>行事</strong>節分（撒豆驱邪）、札幌雪祭</p>
-                    <p><strong>味</strong>恵方巻、草莓季开始</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">3月 · 弥生（やよい）· 春始</div>
-                    <h3>樱花前线北上</h3>
-                    <p><strong>自然</strong>桜、菜の花</p>
-                    <p><strong>行事</strong>ひな祭り（女儿节）、毕业典礼</p>
-                    <p><strong>味</strong>桜餅、蛤の潮汁</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">4月 · 卯月（うづき）· 春</div>
-                    <h3>花見与入学</h3>
-                    <p><strong>自然</strong>満開の桜、新緑</p>
-                    <p><strong>行事</strong>花見、入学式、花まつり</p>
-                    <p><strong>味</strong>桜餅、筍（竹笋）、草莓最盛</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">5月 · 皐月（さつき）· 春末</div>
-                    <h3>黄金周与端午</h3>
-                    <p><strong>自然</strong>新緑、藤、つつじ</p>
-                    <p><strong>行事</strong>黄金周、端午の節句（鲤鱼旗）</p>
-                    <p><strong>味</strong>柏餅、ちまき、新茶</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">6月 · 水無月（みなづき）· 梅雨</div>
-                    <h3>紫阳花与雨</h3>
-                    <p><strong>自然</strong>紫陽花（绣球花）、蛍（萤火虫）</p>
-                    <p><strong>行事</strong>梅雨、夏越の祓</p>
-                    <p><strong>味</strong>水無月（和果子）、青梅</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">7月 · 文月（ふみづき）· 盛夏</div>
-                    <h3>祭典与花火</h3>
-                    <p><strong>自然</strong>向日葵、蝉</p>
-                    <p><strong>行事</strong>祇園祭、七夕、花火大会</p>
-                    <p><strong>味</strong>素麺、冷やし中華、枝豆</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">8月 · 葉月（はづき）· 盛夏</div>
-                    <h3>盂兰盆与夏祭</h3>
-                    <p><strong>自然</strong>向日葵、入道雲</p>
-                    <p><strong>行事</strong>お盆、睡魔祭、阿波踊り</p>
-                    <p><strong>味</strong>かき氷、そうめん、西瓜</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">9月 · 長月（ながつき）· 初秋</div>
-                    <h3>月见与秋始</h3>
-                    <p><strong>自然</strong>彼岸花、すすき（芒草）</p>
-                    <p><strong>行事</strong>十五夜（中秋月见）、敬老の日</p>
-                    <p><strong>味</strong>月見団子、栗、梨</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">10月 · 神無月（かんなづき）· 秋</div>
-                    <h3>食欲之秋</h3>
-                    <p><strong>自然</strong>紅葉始まり、柿</p>
-                    <p><strong>行事</strong>運動会、ハロウィン</p>
-                    <p><strong>味</strong>松茸、秋刀魚、新米、芋</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">11月 · 霜月（しもつき）· 深秋</div>
-                    <h3>红叶狩</h3>
-                    <p><strong>自然</strong>紅葉（もみじ）、銀杏</p>
-                    <p><strong>行事</strong>紅葉狩り、七五三</p>
-                    <p><strong>味</strong>牡蠣、ぶり、鍋物</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">12月 · 師走（しわす）· 冬</div>
-                    <h3>岁末与正月准备</h3>
-                    <p><strong>自然</strong>雪、冬景色、灯饰</p>
-                    <p><strong>行事</strong>忘年会、クリスマス、大晦日（除夕）</p>
-                    <p><strong>味</strong>年越しそば、おせち准备</p>
-                </div>
-            </div>
-            <div class="notice">
-                <div class="notice-title">看花小知识</div>
-                <p>樱花从九州（3月下旬）一路北上至北海道（5月上旬），被称为「樱花前线」。红叶则由北海道（10月）南下至九州（12月），是「红叶前线」。出行前可关注日本气象厅的「开花予想」。</p>
-            </div>
-        </section>
-
-        <!-- ============ 旅行与地方 ============ -->
-        <section id="travel" class="page">
-            <div class="page-header">
-                <div class="kicker">TRAVEL</div>
-                <h1>旅行与地方</h1>
-                <p class="lead">按地区整理的旅行体验：城市速写、必去之处、最佳季节与实用建议。第一次去日本，从这里开始。</p>
-            </div>
-
-            <h2 class="section-title">按地区了解</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-index">TOKYO · 東京</div>
-                    <h3>东京</h3>
-                    <p>日本的门户与心脏。涩谷的十字路口、浅草寺的仲见世通、银座的高楼、秋叶原的霓虹，一座城市装下整个日本的「现在」。</p>
-                    <p class="card-meta">推荐：浅草寺、明治神宫、涩谷/新宿、筑地场外市场、东京塔 · 最佳季节：3–4月（樱）、11月（枫）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">KYOTO · 京都</div>
-                    <h3>京都</h3>
-                    <p>千年古都，日本传统之美的集大成者。清水寺、伏见稻荷大社、金阁寺、岚山竹林与祇园的花街，每一步都是历史。</p>
-                    <p class="card-meta">推荐：清水寺、伏见稻荷、金阁寺、岚山、祇园 · 最佳季节：4月（樱）、11月（红叶）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">OSAKA · 大阪</div>
-                    <h3>大阪</h3>
-                    <p>「天下的厨房」，关西的活力中心。道顿堀的霓虹招牌、章鱼烧与大阪烧的香气、通天阁下的昭和街景，比东京更松弛、更热闹。</p>
-                    <p class="card-meta">推荐：道顿堀、心斋桥、大阪城、环球影城 · 最佳季节：全年（以吃为目的随时可去）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">HOKKAIDO · 北海道</div>
-                    <h3>北海道</h3>
-                    <p>日本最北的大岛，以自然与美食著称。夏天的薰衣草田与富良野、冬天的札幌雪祭与小樽运河，四季各有面孔。</p>
-                    <p class="card-meta">推荐：小樽、札幌、富良野/美瑛、函馆 · 最佳季节：12–2月（雪）、7月（花田）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">NARA · 奈良</div>
-                    <h3>奈良</h3>
-                    <p>比京都更古老的日本。东大寺的大佛、春日大社的千盏灯笼，以及奈良公园里悠闲散步的鹿——历史与可爱并存。</p>
-                    <p class="card-meta">推荐：东大寺、春日大社、奈良公园 · 最佳季节：4月、11月</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">OKINAWA · 沖縄</div>
-                    <h3>冲绳</h3>
-                    <p>与本土气质迥异的南国。钴蓝的海、美国村、首里城的琉球文化，以及独特的冲绳料理。适合放慢节奏的度假式旅行。</p>
-                    <p class="card-meta">推荐：美丽海水族馆、首里城、美国村 · 最佳季节：4–6月、10月</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">FUKUOKA · 福岡</div>
-                    <h3>福冈与九州</h3>
-                    <p>九州的门户，日本最接近大陆的城市之一。博多屋台的深夜拉面、太宰府天满宫、别府与由布院的温泉——南国节奏，吃与泡都酣畅。</p>
-                    <p class="card-meta">推荐：博多屋台、太宰府、由布院、阿苏火山 · 最佳季节：全年（拉面与屋台随时可去）、10–11月（红叶）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">TOHOKU · 東北</div>
-                    <h3>东北：仙台与青森</h3>
-                    <p>比东京更慢的日本。仙台的牛舌与七夕祭、青森的睡魔祭、藏王与十和田湖的四季——远离主流路线，遇见更朴素真实的风景。</p>
-                    <p class="card-meta">推荐：仙台、青森、藏王、十和田湖 · 最佳季节：8月（七夕祭、睡魔祭）、2月（藏王树冰）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">FUJI · 富士山・河口湖</div>
-                    <h3>富士山与河口湖</h3>
-                    <p>日本象征富士山的最佳观赏地，也是东京周边的放松段落。河口湖的湖光倒影、忍野八海的涌泉、冬天的温泉——山与湖，安静地等你。</p>
-                    <p class="card-meta">推荐：河口湖、忍野八海、御殿场、箱根温泉 · 最佳季节：4月、11月（能见度佳）</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">HIROSHIMA · 広島</div>
-                    <h3>广岛与濑户内</h3>
-                    <p>海上大鸟居的严岛神社、和平纪念公园的历史分量，以及濑户内海的群岛与艺术祭。广岛是「历史」与「治愈」并存的一方土地。</p>
-                    <p class="card-meta">推荐：严岛神社、广岛城、尾道、濑户内国际艺术祭 · 最佳季节：4–5月、10月</p>
-                </div>
-            </div>
-
-            <h2 class="section-title">经典行程示例</h2>
-            <div class="article">
-                <p>第一次去日本，最稳妥的路线是「关东 + 关西」：东京进、大阪出（或相反），用 7 天把现代与传统都看一遍。以下是一个参考行程：</p>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>天数</th><th>地点</th><th>安排</th></tr>
-                        <tr><td>Day 1</td><td>东京</td><td>抵达，浅草寺 + 晴空塔，晚上居酒屋</td></tr>
-                        <tr><td>Day 2</td><td>东京</td><td>明治神宫 + 涩谷/原宿 + 秋叶原</td></tr>
-                        <tr><td>Day 3</td><td>东京</td><td>筑地场外市场早餐，台场或镰仓一日游</td></tr>
-                        <tr><td>Day 4</td><td>京都</td><td>新干线前往，清水寺 + 祇园 + 和服体验</td></tr>
-                        <tr><td>Day 5</td><td>京都</td><td>伏见稻荷 + 金阁寺 + 岚山竹林</td></tr>
-                        <tr><td>Day 6</td><td>大阪</td><td>大阪城 + 道顿堀/心斋桥，晚上吃大阪烧</td></tr>
-                        <tr><td>Day 7</td><td>奈良/大阪</td><td>奈良半日（东大寺 + 鹿），下午返程</td></tr>
-                    </table>
-                </div>
-                <p>也可以把京都多留一天，或加入箱根（温泉）与河口湖（富士山）作为东京周边的放松段落。</p>
-            </div>
-
-            <h2 class="section-title">实用信息</h2>
-            <div class="article">
-                <h3>签证</h3>
-                <p>中国大陆居民赴日旅游需办理短期旅游签证（通常 15 天），通过指定旅行社代办，材料以护照、照片、在职/在读证明与资产证明为主。建议至少提前 1 个月办理。</p>
-
-                <h3>交通</h3>
-                <ul>
-                    <li><strong>铁路通票（JR Pass）：</strong>跨城旅行强烈推荐，可在有效期内无限次乘坐 JR 列车与部分新干线；在出发前购买换票证更划算。</li>
-                    <li><strong>Suica / IC 卡：</strong>东京、大阪等地的通用交通储值卡，地铁、公交、便利店通用，建议人手一张。</li>
-                    <li><strong>新干线：</strong>东京—京都约 2 小时 15 分；东京—大阪约 2 小时 30 分，是跨地区移动的主力。</li>
-                    <li><strong>出租车：</strong>价格昂贵，除非深夜或携带大件行李，一般不建议作为主要交通方式。</li>
-                </ul>
-
-                <h3>语言与礼仪</h3>
-                <p>日本主要使用日语，但车站、景点与机场均有大量中文/英文标识，旅行基本无障碍。随身学几句「ありがとう（谢谢）」「すみません（不好意思）」会很有帮助。</p>
-                <p>乘车不打电话、垃圾自行带走（公共垃圾桶少）、泡温泉前先洗净身体、不在公共场所边走边吃——这些小事能让旅途更顺畅。</p>
-
-                <div class="notice">
-                    <div class="notice-title">季节提示</div>
-                    <p>3 月底至 4 月初是樱花季，11 月中下旬是红叶季，这两个时段酒店价格最高、最难预订，务必提前 3–6 个月规划；夏季（7–8 月）炎热潮湿，但花火大会与祭典最为集中。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ 实用日语 ============ -->
-        <section id="japanese" class="page">
-            <div class="page-header">
-                <div class="kicker">NIHONGO · 日本語</div>
-                <h1>实用日语</h1>
-                <p class="lead">出发前学几句，旅途会顺很多。这里只收「旅行中真的用得上」的句子，附读音，照着念就行。</p>
-            </div>
-
-            <div class="article">
-                <h2 class="section-title" style="margin-top:0;">基础寒暄</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>おはようございます</td><td>ohayou gozaimasu</td><td>早上好</td></tr>
-                        <tr><td>こんにちは</td><td>konnichiwa</td><td>你好（白天）</td></tr>
-                        <tr><td>こんばんは</td><td>konbanwa</td><td>晚上好</td></tr>
-                        <tr><td>ありがとうございます</td><td>arigatou gozaimasu</td><td>谢谢</td></tr>
-                        <tr><td>すみません</td><td>sumimasen</td><td>不好意思 / 借过 / 劳驾</td></tr>
-                        <tr><td>はい / いいえ</td><td>hai / iie</td><td>是 / 不是</td></tr>
-                        <tr><td>さようなら</td><td>sayounara</td><td>再见（正式）</td></tr>
-                        <tr><td>では、また</td><td>dewa, mata</td><td>回头见（随意）</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">点餐</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>メニューをください</td><td>menyuu wo kudasai</td><td>请给我菜单</td></tr>
-                        <tr><td>おすすめは何ですか？</td><td>osusume wa nan desu ka?</td><td>有什么推荐？</td></tr>
-                        <tr><td>これをください</td><td>kore wo kudasai</td><td>我要这个（指着菜单说）</td></tr>
-                        <tr><td>水をください</td><td>mizu wo kudasai</td><td>请给我水</td></tr>
-                        <tr><td>いただきます</td><td>itadakimasu</td><td>我开动了（开吃前）</td></tr>
-                        <tr><td>ごちそうさまでした</td><td>gochisousama deshita</td><td>多谢款待（吃完后）</td></tr>
-                        <tr><td>お会計をお願いします</td><td>okaikei wo onegaishimasu</td><td>请结账</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">购物</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>いくらですか？</td><td>ikura desu ka?</td><td>多少钱？</td></tr>
-                        <tr><td>これをください</td><td>kore wo kudasai</td><td>我要这个</td></tr>
-                        <tr><td>試着してもいいですか？</td><td>shichaku shite mo ii desu ka?</td><td>可以试穿吗？</td></tr>
-                        <tr><td>サイズはありますか？</td><td>saizu wa arimasu ka?</td><td>有这个尺寸吗？</td></tr>
-                        <tr><td>カードは使えますか？</td><td>kaado wa tsukaemasu ka?</td><td>可以用信用卡吗？</td></tr>
-                        <tr><td>免税できますか？</td><td>menzei dekimasu ka?</td><td>可以免税吗？</td></tr>
-                        <tr><td>袋をもらえますか？</td><td>fukuro wo moraemasu ka?</td><td>能给我袋子吗？</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">数字与时间</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>いち・に・さん</td><td>ichi, ni, san</td><td>1、2、3</td></tr>
-                        <tr><td>じゅう・ひゃく・せん</td><td>juu, hyaku, sen</td><td>10、100、1000</td></tr>
-                        <tr><td>今、何時ですか？</td><td>ima, nanji desu ka?</td><td>现在几点？</td></tr>
-                        <tr><td>午前 / 午後</td><td>gozen / gogo</td><td>上午 / 下午</td></tr>
-                        <tr><td>〜時〜分</td><td>~ji ~fun</td><td>〜点〜分</td></tr>
-                        <tr><td>今日 / 明日 / 昨日</td><td>kyou / ashita / kinou</td><td>今天 / 明天 / 昨天</td></tr>
-                        <tr><td>〜日間</td><td>~nichikan</td><td>〜天（期间）</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">便利店与车站</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>切符をください</td><td>kippu wo kudasai</td><td>请给我一张票</td></tr>
-                        <tr><td>次の電車は何時ですか？</td><td>tsugi no densha wa nanji desu ka?</td><td>下一班电车几点？</td></tr>
-                        <tr><td>ここで降ります</td><td>koko de orimasu</td><td>我要在这里下车</td></tr>
-                        <tr><td>これを温めてもらえますか？</td><td>kore wo atatamete moraemasu ka?</td><td>可以帮我加热这个吗？（便利店便当）</td></tr>
-                        <tr><td>トイレはどこですか？</td><td>toire wa doko desu ka?</td><td>洗手间在哪里？</td></tr>
-                        <tr><td>電子マネーで払えますか？</td><td>denshi manee de haraemasu ka?</td><td>可以用电子支付吗？</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">问路与交通</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>〜はどこですか？</td><td>~ wa doko desu ka?</td><td>〜在哪里？</td></tr>
-                        <tr><td>駅はどこですか？</td><td>eki wa doko desu ka?</td><td>车站在哪里？</td></tr>
-                        <tr><td>〜までどう行きますか？</td><td>~ made dou ikimasu ka?</td><td>怎么去〜？</td></tr>
-                        <tr><td>この電車は〜に行きますか？</td><td>kono densha wa ~ ni ikimasu ka?</td><td>这趟电车到〜吗？</td></tr>
-                        <tr><td>まっすぐ行ってください</td><td>massugu itte kudasai</td><td>请直走</td></tr>
-                        <tr><td>右に曲がって</td><td>migi ni magatte</td><td>右转</td></tr>
-                        <tr><td>左に曲がって</td><td>hidari ni magatte</td><td>左转</td></tr>
-                        <tr><td>ここはどこですか？</td><td>koko wa doko desu ka?</td><td>这里是哪里？</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">住宿</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>チェックインをお願いします</td><td>chekkuin wo onegaishimasu</td><td>请办理入住</td></tr>
-                        <tr><td>予約しています</td><td>yoyaku shiteimasu</td><td>我有预约</td></tr>
-                        <tr><td>Wi-Fiのパスワードは何ですか？</td><td>Wi-Fi no pasuwaado wa nan desu ka?</td><td>Wi-Fi 密码是多少？</td></tr>
-                        <tr><td>鍵をなくしました</td><td>kagi wo nakushimashita</td><td>我把钥匙弄丢了</td></tr>
-                        <tr><td>朝食は何時からですか？</td><td>choushoku wa nanji kara desu ka?</td><td>早餐几点开始？</td></tr>
-                    </table>
-                </div>
-
-                <h2 class="section-title">紧急情况</h2>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>日本語</th><th>読み方</th><th>中文</th></tr>
-                        <tr><td>助けて！</td><td>tasukete!</td><td>救命！</td></tr>
-                        <tr><td>警察を呼んでください</td><td>keisatsu wo yonde kudasai</td><td>请叫警察</td></tr>
-                        <tr><td>救急車を呼んでください</td><td>kyuukyuusha wo yonde kudasai</td><td>请叫救护车</td></tr>
-                        <tr><td>病院はどこですか？</td><td>byouin wa doko desu ka?</td><td>医院在哪里？</td></tr>
-                        <tr><td>日本語がわかりません</td><td>nihongo ga wakarimasen</td><td>我听不懂日语</td></tr>
-                        <tr><td>英語を話せますか？</td><td>eigo wo hanasemasu ka?</td><td>你会说英语吗？</td></tr>
-                    </table>
-                </div>
-
-                <div class="notice">
-                    <div class="notice-title">小提示</div>
-                    <p>罗马音只是辅助，发音请以假名为准：长音拉长、促音停顿、「つ」发 tsu。出发前用语音 App 听几遍更稳妥。遇到实在说不清的情况，掏出手机指给店家看，日本服务业普遍很有耐心。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ 美食 ============ -->
-        <section id="food" class="page">
-            <div class="page-header">
-                <div class="kicker">FOOD</div>
-                <h1>美食</h1>
-                <p class="lead">从寿司、拉面到便利店甜品——一份关于「吃」的日本清单，附简单做法与购买建议。</p>
-            </div>
-
-            <h2 class="section-title">日本料理地图</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-index">SUSHI</div>
-                    <h3>寿司</h3>
-                    <p>日本料理的代表。从回转寿司（人均百元级）到银座的高级寿司店，丰俭由人。推荐从回转寿司入门，感受「现捏现吃」的节奏。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">RAMEN</div>
-                    <h3>拉面</h3>
-                    <p>日本国民快餐，汤底分酱油、盐味、味噌、豚骨四大系。福冈的豚骨、札幌的味噌、东京的酱油各有拥趸，一碗面就是一座城市。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">TEMPURA</div>
-                    <h3>天妇罗</h3>
-                    <p>面衣轻薄、油温精准的天妇罗，是「油炸」的极致表达。虾、星鳗、蔬菜皆是经典，蘸萝卜泥汁或盐食用。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">WAGYU</div>
-                    <h3>和牛与烧肉</h3>
-                    <p>神户牛、松阪牛、近江牛并称三大和牛。烧肉店按部位点单，从「カルビ（牛五花）」到「タン（牛舌）」，是聚会首选。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">KAISEKI</div>
-                    <h3>怀石料理</h3>
-                    <p>日本料理的最高形式，一道接一道地呈现季节食材，讲究器皿、摆盘与留白。京都是品尝怀石的最佳地点，价格较高，建议作为「一次特别体验」。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">IZAKAYA</div>
-                    <h3>居酒屋</h3>
-                    <p>不是单一料理，而是一种「吃法」：生啤配毛豆开场，再按节奏加串烧、刺身、炸鸡。人均 150–250 元就能吃得很满足。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">UDON & SOBA</div>
-                    <h3>乌冬与荞麦</h3>
-                    <p>两大国民面食。乌冬（うどん）粗而筋道，香川的赞岐乌冬最著名；荞麦（そば）细而清香，冷荞麦蘸酱与热汤荞麦各有所长。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">CURRY</div>
-                    <h3>咖喱饭</h3>
-                    <p>日本人把源自印度的咖喱做成了自己的国民料理：浓稠的日式咖喱配白饭、炸猪排或蛋包饭，金泽、横须贺等地还有各自的咖喱流派。</p>
-                </div>
-            </div>
-
-            <h2 class="section-title">街头与便利店</h2>
-            <div class="article">
-                <ul>
-                    <li><strong>章鱼烧（たこ焼き）：</strong>大阪的灵魂小吃，面糊里裹着章鱼块，外脆内软，撒上柴鱼片与海苔。</li>
-                    <li><strong>大阪烧（お好み焼き）：</strong>以面糊、卷心菜与肉类煎制，再淋上酱汁与蛋黄酱，关西人的「家庭料理之王」。</li>
-                    <li><strong>可丽饼与鲷鱼烧：</strong>原宿竹下通的可丽饼是少女文化的一部分；鲷鱼烧则是冬天的定番甜品，红豆馅最经典。</li>
-                    <li><strong>便利店甜品：</strong>日本便利店的甜品卷、布丁、大福水准极高，被称为「便利店中的甜品店」。FamilyMart 与 Lawson 的限定款值得一试。</li>
-                    <li><strong>车站便当（駅弁）：</strong>每个车站都有自己的名物便当，在列车上打开一份当地便当，是日本旅行独有的仪式感。</li>
-                    <li><strong>和果子（わがし）：</strong>麻糬、大福、羊羹、最中……四季皆有代表的和果子，是茶道与伴手礼的常客，名店常限季供应。</li>
-                </ul>
-            </div>
-
-            <h2 class="section-title">简单做法：在家复刻日式味道</h2>
-            <div class="article">
-                <h3>亲子丼（おやこどん）</h3>
-                <ol>
-                    <li>鸡腿肉切块，用少许酱油、料酒腌 10 分钟。</li>
-                    <li>锅中加日式高汤（可用柴鱼粉+水代替）与酱油、味醂、糖，煮开后放入鸡肉。</li>
-                    <li>鸡肉熟后，淋入打散的鸡蛋液，盖盖焖 30 秒至半熟。</li>
-                    <li>连汁带料盖在热米饭上，撒葱花与七味粉即可。</li>
-                </ol>
-
-                <h3>味噌汤（みそしる）</h3>
-                <ol>
-                    <li>锅中煮日式高汤，放入豆腐、裙带菜、油豆腐等配料。</li>
-                    <li>关小火，用滤勺将味噌慢慢化入汤中（味噌不可久煮，以免香气流失）。</li>
-                    <li>煮沸前关火，撒葱花上桌。配一碗米饭，就是标准的日式早餐。</li>
-                </ol>
-            </div>
-
-            <h2 class="section-title">购买与推荐建议</h2>
-            <div class="article">
-                <ul>
-                    <li><strong>超市晚间折扣：</strong>日本超市通常在 19:00 后给生鱼片、便当打折（半额/三割引），是省钱吃刺身的好时机。</li>
-                    <li><strong>药妆店零食：</strong>抹茶巧克力、KitKat 限定口味、薯条三兄弟等，适合作为伴手礼，价格比机场便宜。</li>
-                    <li><strong>地方特产：</strong>北海道白色恋人、京都生八桥、福冈明太子、大阪章鱼烧煎饼——按地区买特产，是旅行的一部分。</li>
-                    <li><strong>看排队选店：</strong>日本小店质量普遍在线，遇到本地人排队的店，跟着排通常不会错；网红店反而可能溢价。</li>
-                </ul>
-
-                <div class="notice">
-                    <div class="notice-title">小提示</div>
-                    <p>在高级寿司店与怀石料理店，通常不能拍照、不能喷香水，且需要预约。普通餐厅则很随和；若不确定，可以问一句「写真大丈夫ですか？」（可以拍照吗）。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ 流行文化 ============ -->
-        <section id="pop" class="page">
-            <div class="page-header">
-                <div class="kicker">POP CULTURE</div>
-                <h1>流行文化</h1>
-                <p class="lead">动漫、漫画、游戏、音乐与电影——这个国家造梦的能力，世界有目共睹。这里是一份「从哪里开始」的指南。</p>
-            </div>
-
-            <div class="article">
-                <h2>动漫（アニメ）</h2>
-                <p>日本动画是全球最具影响力的流行文化输出之一。从吉卜力（宫崎骏）的《千与千寻》《龙猫》，到新海诚的《你的名字。》《铃芽之旅》，再到《新世纪福音战士》《进击的巨人》《鬼灭之刃》等现象级作品——日本动画既讲少年热血，也谈存在与孤独。</p>
-                <p>圣地巡礼（探访动画取景地）是近年热门玩法：濑户内海的《你的名字。》取景地、镰仓的《灌篮高手》路口，都已成为旅行目的地。</p>
-
-                <h2>漫画（マンガ）</h2>
-                <p>漫画是日本流行文化的「母体」——大量动画、电影、游戏都改编自漫画。从手冢治虫的《铁臂阿童木》到鸟山明的《龙珠》、尾田荣一郎的《海贼王》，漫画承载了几代人的青春。电子版阅读流行后，实体书店与「漫画咖啡（漫喫）」依然保有生命力。</p>
-
-                <h2>游戏（ゲーム）</h2>
-                <p>任天堂（马里奥、塞尔达、宝可梦）、索尼 PlayStation（最终幻想、战神）、卡普空（生化危机、怪物猎人）、FromSoftware（黑暗之魂、艾尔登法环）……日本游戏定义了「好玩」的多种可能。秋叶原与大阪日本桥是游戏与周边购物的圣地；任天堂博物馆（京都宇治）2024 年开放后一票难求。</p>
-
-                <h2>音乐</h2>
-                <p>日本音乐版图辽阔：J-POP（宇多田光、米津玄师、YOASOBI）、摇滚（X JAPAN、RADWIMPS、King Gnu）、City Pop（山下达郎、竹内玛利亚——近年因网络翻红，成为「昭和复古」的代名词）、以及偶像产业（AKB48、乃木坂46）。Livehouse 文化发达，音乐节（Fuji Rock、SUMMER SONIC）是夏季的固定节目。</p>
-
-                <h2>电影</h2>
-                <p>黑泽明的《七武士》《罗生门》让世界认识日本电影；是枝裕和的《小偷家族》《步履不停》以细腻家庭叙事闻名；北野武的暴力美学与宫崎骏的动画电影同样影响深远。近年《驾驶我的车》（滨口龙介）与《怪物》在戛纳屡获大奖，证明日本电影仍在持续输出。</p>
-
-                <h2>偶像（アイドル）</h2>
-                <p>偶像文化是日本独特的娱乐形态：从 1970 年代的女性偶像热潮，到 AKB48 的「可以见面的偶像」模式，再到男团（杰尼斯系、Snow Man、BE:FIRST）与地下偶像（在小型 livehouse 演出的独立偶像团体）——「应援」本身成为一种生活方式。</p>
-            </div>
-
-            <h2 class="section-title">从哪开始？</h2>
-            <div class="article">
-                <ul>
-                    <li><strong>动画入门：</strong>吉卜力作品 → 新海诚 → 《进击的巨人》《鬼灭之刃》</li>
-                    <li><strong>漫画入门：</strong>《海贼王》《灌篮高手》《钢之炼金术师》</li>
-                    <li><strong>游戏入门：</strong>任天堂 Switch 独占（塞尔达传说：旷野之息）是公认的「打开新世界」之作</li>
-                    <li><strong>音乐入门：</strong>City Pop（竹内玛利亚《Plastic Love》）→ 米津玄师 → YOASOBI</li>
-                    <li><strong>电影入门：</strong>是枝裕和《小偷家族》→ 黑泽明《七武士》→ 今敏《千年女优》</li>
-                </ul>
-
-                <div class="notice">
-                    <div class="notice-title">线下体验</div>
-                    <p>东京秋叶原（动漫游戏）、中野百老汇（二手漫画周边）、下北泽（音乐现场）、涩谷（偶像周边）——四个街区，四种流行文化浓度，建议各留半天。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ 和风东渐 ============ -->
-        <section id="east" class="page">
-            <div class="page-header">
-                <div class="kicker">TOZEN · 東漸</div>
-                <h1>和风东渐</h1>
-                <p class="lead">语言与童年——日本如何悄悄影响了一代中国人。从我们脱口而出的词，到童年电视里那束「光」，影响早已内化成日常。</p>
-            </div>
-
-            <h2 class="section-title">语言：汉字里的日本</h2>
-            <div class="article">
-                <p>近代以来，大量现代词汇经由日本传入中国。明治维新后，日本人用汉字翻译西方概念，造出大量「和制汉语」；清末民初，这些词随留日学生与译书回流，成为现代汉语的基石。今天我们习以为常的「社会」「经济」「哲学」，其实都来自日语。</p>
-
-                <h3>思想与社会</h3>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>词汇</th><th>日语写法</th><th>来历</th></tr>
-                        <tr><td>社会</td><td>社会（しゃかい）</td><td>翻译 society，清末传入</td></tr>
-                        <tr><td>经济</td><td>経済（けいざい）</td><td>取「经世济民」之意，翻译 economy</td></tr>
-                        <tr><td>哲学</td><td>哲学（てつがく）</td><td>西周造词，翻译 philosophy</td></tr>
-                        <tr><td>科学</td><td>科学（かがく）</td><td>翻译 science，取代旧译「格致」</td></tr>
-                        <tr><td>心理</td><td>心理（しんり）</td><td>翻译 psychology，构成「心理学」</td></tr>
-                        <tr><td>主义</td><td>主義（しゅぎ）</td><td>翻译 -ism，构成「社会主义」等</td></tr>
-                        <tr><td>概念 / 抽象 / 具体</td><td>概念・抽象・具体</td><td>翻译西方哲学术语</td></tr>
-                        <tr><td>主观 / 客观</td><td>主観・客観</td><td>翻译 subject / object</td></tr>
-                    </table>
-                </div>
-
-                <h3>制度与身份</h3>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>词汇</th><th>日语写法</th><th>来历</th></tr>
-                        <tr><td>干部</td><td>幹部（かんぶ）</td><td>指组织中的骨干成员</td></tr>
-                        <tr><td>警察</td><td>警察（けいさつ）</td><td>随近代警政制度传入</td></tr>
-                        <tr><td>派出所</td><td>派出所（はしゅつじょ）</td><td>原为日本警署派出机构，沿用至今</td></tr>
-                        <tr><td>法人</td><td>法人（ほうじん）</td><td>翻译 legal person</td></tr>
-                        <tr><td>机关</td><td>機関（きかん）</td><td>「机关单位」之义来自日语</td></tr>
-                        <tr><td>母校</td><td>母校（ぼこう）</td><td>毕业学校之意，源自日本</td></tr>
-                        <tr><td>体育</td><td>体育（たいいく）</td><td>日本造词，「体育课」由此而来</td></tr>
-                        <tr><td>选手</td><td>選手（せんしゅ）</td><td>运动员之意，传入后沿用</td></tr>
-                    </table>
-                </div>
-
-                <h3>生活与日常</h3>
-                <div class="table-wrap">
-                    <table>
-                        <tr><th>词汇</th><th>日语写法</th><th>来历</th></tr>
-                        <tr><td>电话</td><td>電話（でんわ）</td><td>翻译 telephone，日本造词</td></tr>
-                        <tr><td>写真</td><td>写真（しゃしん）</td><td>日语中「照片」之意，「写真集」由此来</td></tr>
-                        <tr><td>料理</td><td>料理（りょうり）</td><td>烹饪、菜肴之意，如「日本料理」</td></tr>
-                        <tr><td>便当</td><td>弁当（べんとう）</td><td>盒饭之意，台湾沿用「便当」</td></tr>
-                        <tr><td>铁道 / 电车</td><td>鉄道・電車</td><td>铁路与轨道交通用语</td></tr>
-                        <tr><td>通勤</td><td>通勤（つうきん）</td><td>上下班往返之意</td></tr>
-                        <tr><td>人气 / 达人</td><td>人気・達人</td><td>受欢迎、某领域精通者</td></tr>
-                        <tr><td>漫画 / 物语</td><td>漫画・物語</td><td>现代「漫画」「故事」之义传入</td></tr>
-                    </table>
-                </div>
-
-                <p class="card-meta">说明：以上为公认度较高的和制汉语示例。许多词古汉语已有字形，但现代义由日语定型后回流——这正是「影响」最深的形态：你甚至意识不到它来自哪里。</p>
-            </div>
-
-            <h2 class="section-title">童年：被日式故事滋养的一代</h2>
-            <div class="article">
-                <p>对 90 后、00 后而言，童年电视里总有一部日本动画或特摄片：《名侦探柯南》的推理、《迪迦奥特曼》的光、《哆啦A梦》的任意门……这些作品不仅陪伴了放学后的时光，也在不知不觉中塑造了一代人的品格。</p>
-            </div>
-
-            <div class="grid cols-2">
-                <div class="card">
-                    <div class="card-index">名探偵コナン · 1996–</div>
-                    <h3>名侦探柯南</h3>
-                    <p><strong>教会我们：</strong>「真相只有一个」。对细节的观察、对逻辑的信任、对正义的坚持——哪怕真相令人难过，也要查明。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">ウルトラマンティガ · 1996</div>
-                    <h3>迪迦奥特曼</h3>
-                    <p><strong>教会我们：</strong>「你也可以变成光」。勇气不是不害怕，而是害怕之后依然选择守护；每个人都有成为光的能力。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">ドラえもん · 1970–</div>
-                    <h3>哆啦A梦</h3>
-                    <p><strong>教会我们：</strong>好奇心与想象力。任意门、竹蜻蜓、时光机——大雄的平凡与哆啦A梦的陪伴，是「善良」最早的形状。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">スラムダンク · 1993</div>
-                    <h3>灌篮高手</h3>
-                    <p><strong>教会我们：</strong>「直到最后一刻，也不能放弃希望」。湘北五虎的热血、失败后的再出发，定义了青春该有的样子。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">デジモン · 1999</div>
-                    <h3>数码宝贝</h3>
-                    <p><strong>教会我们：</strong>成长与羁绊。「被选中的孩子」各自握着勇气、友情、诚实、纯真的徽章——伙伴与自我，都值得拼尽全力守护。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">ちびまる子ちゃん · 1990</div>
-                    <h3>樱桃小丸子</h3>
-                    <p><strong>教会我们：</strong>平凡日子的可爱。小丸子的偷懒、碎碎念与小小烦恼，让人学会用乐观和幽默对待普通的一天。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">キャプテン翼 · 1981</div>
-                    <h3>足球小将</h3>
-                    <p><strong>教会我们：</strong>目标与拼劲。「足球是我的朋友」——大空翼让一代中国孩子第一次知道，热爱一件事可以如此纯粹。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">美少女戦士セーラームーン · 1992</div>
-                    <h3>美少女战士</h3>
-                    <p><strong>教会我们：</strong>「爱与正义」。温柔不是软弱，女生也可以保护世界——这份启蒙在 90 年代尤为珍贵。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">ポケットモンスター · 1997–</div>
-                    <h3>精灵宝可梦</h3>
-                    <p><strong>教会我们：</strong>「就决定是你了！」小智与皮卡丘从互不对付到生死与共——伙伴不是天生的，是一路同行养出来的；每一场道馆挑战、每一段旅程都在说：出发，就会有答案。</p>
-                </div>
-                <div class="card card-wide">
-                    <div class="card-index">…… · ほかにもたくさん</div>
-                    <h3>不胜枚举</h3>
-                    <p>柯南与哆啦A梦，只是这片海的一角——《龙珠》的热血、《蜡笔小新》的日常、《海贼王》的伙伴，还有更多名字曾在一代人的童年里亮过。它们教会我们的，远不止这九张卡片能写完。</p>
-                </div>
-            </div>
-
-            <div class="notice">
-                <div class="notice-title">小结：学习而不失自我</div>
-                <p>影响从来不是单向的。中文吸收了和制汉语，也把「功夫」「关系」等词反向带进日语；看着日本动画长大的孩子，如今也在用自己的创作回应——国漫、国产游戏近年的崛起，正是「影响」的另一面。语言如此，文化亦然：<strong>大方地学习，清醒地创造，才是交流最好的样子。</strong></p>
-            </div>
-        </section>
-
-        <!-- ============ 入境问俗 ============ -->
-        <section id="etiquette" class="page">
-            <div class="page-header">
-                <div class="kicker">ETIQUETTE · 入国問俗（にゅうこくもんぞく）</div>
-                <h1>入境问俗</h1>
-                <p class="lead">「入境而问禁，入国而问俗，入门而问讳」——《礼记》。这个板块讲的，是那些「没说出口的规矩」：因为不了解而冒犯到对方，是旅途中最大的遗憾。</p>
-            </div>
-
-        <h2 class="section-title">先澄清最大的误解：艺妓与舞妓</h2>
-            <div class="article">
-                <p>在关于日本的误解里，没有哪个比「艺妓」更伤人的了。艺妓不是性工作者，而是以传统艺术为业的表演者——她们自幼年起学习三味线、日本舞蹈、茶道与谈话艺术，用数年的训练，换取宴席上一场优雅的款待。把这个词与情色联系起来，是对她们职业与人格的双重冒犯。</p>
-            </div>
-            <div class="grid cols-fixed-2">
-                <div class="card">
-                    <div class="card-index">芸者 / 芸妓</div>
-                    <h3>艺妓是什么</h3>
-                    <p>以传统艺术为业的人：三味线、舞蹈、茶道、酒席间的谈话。东京称「芸者（げいしゃ）」，京都称「芸妓（げいぎ）」。她们是艺术家——仅此而已。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">舞妓 · まいこ</div>
-                    <h3>舞妓是见习艺妓</h3>
-                    <p>京都特有，指 15–20 岁左右仍在学艺的见习艺妓：华丽和服、垂带、白粉妆。看到她们，就像看到一座城市还在生长的传统。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">祇園 · 花見小路</div>
-                    <h3>花街不是红灯区</h3>
-                    <p>祇园等「花街」是艺妓表演与宴会的传统街区。京都自 2019 年起禁止游客在花街小路未经许可拍摄艺妓、舞妓——她们是下班路上的普通人，不是景点。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">観る・体験する</div>
-                    <h3>如何正确地欣赏</h3>
-                    <p>去祇園角等剧场观看舞妓表演，或通过正规渠道预约茶屋体验。在街上遇到她们，远远地微笑致意就好——不要追拍、拦路或求合影。</p>
-                </div>
-            </div>
-
-            <h2 class="section-title">餐桌上的规矩</h2>
-            <div class="article">
-                <p>日本餐桌礼仪的底线，大多与「生死观念」和「不打扰他人」有关——理解了背后的原因，就不容易踩雷。</p>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <tr><th>场景</th><th>规矩</th><th>为什么</th></tr>
-                    <tr><td>筷子</td><td>不要把筷子直插进米饭里</td><td>那是葬礼上供奉亡者的摆法</td></tr>
-                    <tr><td>筷子</td><td>不要用筷子给别人的筷子夹菜</td><td>「箸渡し（はしわたし）」是火葬捡骨时的动作</td></tr>
-                    <tr><td>筷子</td><td>不要用筷子指人、在碗里搅动</td><td>被视为无礼与不洁</td></tr>
-                    <tr><td>寿司</td><td>芥末放在寿司料上，不搅进酱油碟</td><td>搅酱油是外行的做法，也会破坏味道</td></tr>
-                    <tr><td>汤与米饭</td><td>端起碗来喝、吃</td><td>低头就碗扒饭被视为不雅</td></tr>
-                    <tr><td>面条</td><td>发出吸面声没关系</td><td>在日本，那是「好吃」的赞美</td></tr>
-                    <tr><td>结账</td><td>把小票拿到收银台，不必喊服务员</td><td>日本餐厅习惯客人到柜台结账</td></tr>
-                    <tr><td>小费</td><td>不要给小费</td><td>日本没有小费文化，留下反而让店员追出来还你</td></tr>
-                </table>
-            </div>
-
-            <h2 class="section-title">电车、街头与公共空间</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-index">電車内</div>
-                    <h3>电车静音</h3>
-                    <p>手机调成静音，不在车内打电话；说话也放低声音。日本人把车厢当作共享的「静室」，喧哗是最大的打扰。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">優先席</div>
-                    <h3>让座优先席</h3>
-                    <p>车厢两端的「优先席」留给老人、孕妇与带小孩的乘客。即便不坐那边，遇到需要的人也请主动让座。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">歩き食べ</div>
-                    <h3>不边走边吃</h3>
-                    <p>在街头边走边吃东西被视为不雅——在祭典摊位旁站着吃完再走，才是入乡随俗的吃法。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">ゴミは持ち帰る</div>
-                    <h3>垃圾随身带走</h3>
-                    <p>日本的公共垃圾桶很少（1995 年地铁沙林事件后大幅撤除）。自备一个小袋子，把垃圾带回住处再扔。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">順番を守る</div>
-                    <h3>认真排队</h3>
-                    <p>日本人对排队秩序非常认真：不插队、不贴太近。哪怕只有两个人，也会自觉地一前一后。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">指さし</div>
-                    <h3>不用手指指人</h3>
-                    <p>指人、指物用整只手掌、掌心向上示意，而不是伸出食指——那在日本人眼里很粗鲁。</p>
-                </div>
-            </div>
-
-            <h2 class="section-title">神社、寺庙与温泉</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-index">手水舎</div>
-                    <h3>手水舍的正确用法</h3>
-                    <p>先洗左手、再洗右手，倒水漱口（不直接对嘴），最后洗勺柄放回。整套动作安静而从容，是对神明的敬意。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">お参り</div>
-                    <h3>参拜有仪式感</h3>
-                    <p>神社：二礼、二拍手、一礼；寺庙：合掌鞠躬，不拍手。投钱币轻放，不要用力投掷。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">参道</div>
-                    <h3>走参道两侧</h3>
-                    <p>参道正中是神明走的「正中」，普通人走两侧。在神社里放慢脚步，不大声说笑。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">撮影禁止</div>
-                    <h3>拍照前先看标识</h3>
-                    <p>很多本殿、堂内与佛像禁止拍照，门口有「撮影禁止」标识。遇到就收起手机，用眼睛记住就好。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">温泉</div>
-                    <h3>先洗净，再入池</h3>
-                    <p>入池前坐着把身体冲洗干净；毛巾不进水（放池边或头顶）；裸泡，不穿泳衣；长发盘起不垂入水中。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">タトゥー</div>
-                    <h3>纹身要注意</h3>
-                    <p>许多公共温泉、泳池禁止纹身者入内。出发前确认设施是否「纹身 OK」，或使用遮盖贴，避免到门口才尴尬。</p>
-                </div>
-            </div>
-
-            <h2 class="section-title">日常举止与心意</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-index">玄関</div>
-                    <h3>进屋脱鞋，不踩门槛</h3>
-                    <p>在玄关换好拖鞋再进屋；门槛（敷居）在神道观念里是神圣的界限，不踩踏。上榻榻米前，连拖鞋也脱掉。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">さん付け</div>
-                    <h3>称呼：名字 + さん</h3>
-                    <p>用「姓氏/名字 + さん」称呼对方，避免直接说「あなた（你）」——那在日语里显得生硬而不客气。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">贈り物</div>
-                    <h3>礼物不当面拆</h3>
-                    <p>日本人习惯收下礼物后道谢，私下再拆开。收到时双手接过、说「ありがとう」，就是很得体的回应。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">値引き</div>
-                    <h3>不砍价</h3>
-                    <p>百货店、餐厅、便利店全部明码标价。讨价还价在正规店铺几乎不存在，反而会让店家不知所措。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">盗撮</div>
-                    <h3>不偷拍他人</h3>
-                    <p>未经同意拍摄他人，在日本是失礼甚至违法的行为（「盗撮」）。拍街景时也尽量避开入镜的人。</p>
-                </div>
-                <div class="card">
-                    <div class="card-index">お辞儀</div>
-                    <h3>鞠躬不必深</h3>
-                    <p>微微点头加上微笑，就足以表达礼貌。日本人不会期待外国游客行标准鞠躬——真诚比标准更重要。</p>
-                </div>
-            </div>
-
-            <div class="notice">
-                <div class="notice-title">规矩背后是心意</div>
-                <p>这些「规矩」的背后，是日本文化对「不给别人添麻烦（人に迷惑をかけない）」的重视，和一种清晰的界限感。做错了也不必慌张——真诚的一句「すみません」，比任何完美的礼仪都更能传递善意。<strong>入乡随俗，不是讨好，而是尊重。</strong></p>
-            </div>
-    
-        </section>
-
-</main>
-
-    <footer class="site-footer">
-        <div class="footer-inner">
-            <span id="jp-date"></span>
-            <span class="footer-year">© <span id="year">2026</span> 日本文化志 NIPPON</span>
-            <span id="jp-time"></span>
         </div>
-    </footer>
 
-    <button id="back-top" class="back-top" aria-label="回到顶部">↑</button>
+        <div class="grid" id="grid"></div>
+        <div class="empty" id="empty" style="display:none;">🔒 未找到匹配的收容物档案</div>
 
+        <footer>
+            本网站为《蓝白社》同人作品 · 收容物数据可于 <a href="data.js">data.js</a> 中自行增补<br>
+            天下皆白 · 唯我独黑
+        </footer>
+    </div>
+
+    <!-- 详情弹窗 -->
+    <div class="modal-mask" id="modalMask">
+        <div class="modal" id="modal">
+            <button class="close" id="modalClose">✕</button>
+            <div class="modal-head">
+                <div class="m-id" id="mId"></div>
+                <h2 id="mName"></h2>
+                <div class="m-meta">
+                    <span class="badge" id="mLevel"></span>
+                    <span class="badge" style="background:#595959" id="mCategory"></span>
+                </div>
+            </div>
+            <div class="section">
+                <h4>威胁描述</h4>
+                <p id="mThreat"></p>
+            </div>
+            <div class="section">
+                <h4>外观描述</h4>
+                <p id="mAppearance"></p>
+            </div>
+            <div class="section">
+                <h4>收容措施</h4>
+                <p id="mContainment"></p>
+            </div>
+            <div class="section">
+                <h4>档案描述</h4>
+                <p id="mDesc"></p>
+            </div>
+            <div class="section">
+                <h4>发现 / 录入记录</h4>
+                <p id="mDiscovered"></p>
+            </div>
+            <div class="section">
+                <h4>标签</h4>
+                <div class="tags" id="mTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
     <script>
+        /* ===== 星空背景 ===== */
         (function () {
-            var pages = document.querySelectorAll('.page');
-            var links = document.querySelectorAll('.nav-links a');
-            var allLinks = document.querySelectorAll('a[href^="#"]');
-            var titles = {
-                home: '首页', about: '关于本站', culture: '日本文化',
-                seasons: '岁时记', travel: '旅行与地方', japanese: '实用日语',
-                food: '美食', pop: '流行文化', east: '和风东渐', etiquette: '入境问俗'
-            };
-            function show(name) {
-                var target = name || 'home';
-                if (!document.getElementById(target)) { target = 'home'; }
-                // 切换板块时自动退出搜索模式
-                var si = document.getElementById('site-search');
-                if (si && si.value) {
-                    si.value = '';
-                    document.querySelectorAll('.card').forEach(function (c) { c.style.display = ''; });
-                    document.querySelectorAll('.page').forEach(function (p) { p.style.display = ''; });
-                    var ce = document.getElementById('search-count');
-                    if (ce) { ce.textContent = ''; }
+            const c = document.getElementById('stars'), x = c.getContext('2d');
+            let W, H, stars = [];
+            function resize() { W = c.width = innerWidth; H = c.height = innerHeight; }
+            function init() {
+                stars = Array.from({ length: 140 }, () => ({
+                    x: Math.random() * W, y: Math.random() * H,
+                    r: Math.random() * 1.4 + .3,
+                    s: Math.random() * .25 + .05,
+                    a: Math.random() * Math.PI * 2
+                }));
+            }
+            function draw() {
+                x.clearRect(0, 0, W, H);
+                for (const s of stars) {
+                    s.a += s.s * .02;
+                    x.globalAlpha = Math.sin(s.a) * .5 + .5;
+                    x.fillStyle = '#8f8f8f';
+                    x.beginPath(); x.arc(s.x, s.y, s.r, 0, Math.PI * 2); x.fill();
                 }
-                pages.forEach(function (p) {
-                    p.classList.toggle('active', p.id === target);
-                });
-                links.forEach(function (a) {
-                    var isActive = a.getAttribute('href') === '#' + target;
-                    a.classList.toggle('active', isActive);
-                    if (isActive) { a.setAttribute('aria-current', 'page'); }
-                    else { a.removeAttribute('aria-current'); }
-                });
-                var live = document.getElementById('page-live');
-                if (live) { live.textContent = '已切换到' + (titles[target] || '首页') + '板块'; }
-                document.title = '日本文化志 NIPPON';
-                window.scrollTo(0, 0);
+                requestAnimationFrame(draw);
             }
-            function route() {
-                var saved = null;
-                try { saved = localStorage.getItem('nippon-page'); } catch (e) {}
-                var h = location.hash.replace('#', '');
-                show(h || saved || 'home');
-            }
-            // 拦截所有锚点链接：不改变 URL（避免 file:// 下带 hash 刷新 404），改用 localStorage 记忆当前页
-            allLinks.forEach(function (a) {
-                a.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    var target = a.getAttribute('href').replace('#', '');
-                    try { localStorage.setItem('nippon-page', target); } catch (e) {}
-                    show(target);
-                });
-            });
-            window.addEventListener('hashchange', route);
-            route();
+            resize(); init(); draw();
+            addEventListener('resize', () => { resize(); init(); });
         })();
-    
-        (function () {
-            var elDate = document.getElementById('jp-date');
-            var elTime = document.getElementById('jp-time');
-            function fmtDate() {
-                try {
-                    var jp = new Intl.DateTimeFormat('ja-JP-u-ca-japanese', { timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric' }).format(new Date());
-                    var y = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Tokyo', year: 'numeric' }).format(new Date());
-                    return jp + '（' + y + '年）';
-                } catch (e) { return ''; }
-            }
-            function fmtTime() {
-                try {
-                    return new Intl.DateTimeFormat('ja-JP', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).format(new Date());
-                } catch (e) { return ''; }
-            }
-            if (elDate) elDate.textContent = fmtDate();
-            if (elTime) {
-                var tick = function () { elTime.textContent = '東京 ' + fmtTime(); };
-                tick();
-                setInterval(tick, 1000);
-            }
-        })();
-            // ===== 彩蛋：点击东京时间 10 次，日之丸烟花（时间 = 烟花筒）=====
-    (function () {
-        var timeEl = document.getElementById('jp-time');
-        if (!timeEl) return;
-        var canvas = document.createElement('canvas');
-        canvas.id = 'egg-canvas';
-        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99999;';
-        document.body.appendChild(canvas);
-        var ctx = canvas.getContext('2d');
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resize();
-        window.addEventListener('resize', resize);
 
-        var RED = '#BC002D', WHITE = '#FFFFFF', GRAY = 'rgba(180,180,180,0.8)';
-        var items = [], iv = null, active = false;
-        function rand(a, b) { return a + Math.random() * (b - a); }
+        /* ===== 渲染逻辑 ===== */
+        const grid = document.getElementById('grid');
+        const empty = document.getElementById('empty');
+        const searchInput = document.getElementById('search');
+        let curLevel = '';
+        let curKeyword = '';
 
-        // 日本特色元素（彩蛋点缀，日之丸仍占大多数）
-        var EMOJIS = ['👘', '🍣', '🗻', '⛩️', '🌸', '🎎', '🎏', '🗼', '🏮', '🍱', '🎐', '🐟'];
-
-        // 画一朵日之丸（白底 + 红日，标准比例）；若指定 emoji 则绘制日本特色元素
-        function drawSun(x, y, r, rot, alpha, emoji) {
-            ctx.save();
-            ctx.globalAlpha = alpha;
-            if (emoji) {
-                ctx.font = Math.max(Math.round(r * 2), 12) + 'px "Segoe UI Emoji", "Noto Color Emoji", "Apple Color Emoji", sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(emoji, x, y);
-                ctx.restore();
-                return;
-            }
-            ctx.translate(x, y);
-            ctx.rotate(rot);
-            ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2);
-            ctx.fillStyle = WHITE; ctx.fill();
-            ctx.lineWidth = 1; ctx.strokeStyle = GRAY; ctx.stroke();
-            ctx.beginPath(); ctx.arc(0, 0, r * 0.6, 0, Math.PI * 2);
-            ctx.fillStyle = RED; ctx.fill();
-            ctx.restore();
+        function levelColor(lv) {
+            return (LEVEL_META[lv] && LEVEL_META[lv].color) || '#4d8dff';
         }
 
-        // 从筒口（时间元素）发射：70% 日之丸，30% 日本特色元素（国旗占大多数）
-        function launch(fromX, fromY) {
-            var ang = -Math.PI / 2 + rand(-0.45, 0.45);
-            var sp = rand(6.5, 9.5);
-            var emoji = Math.random() < 0.30 ? EMOJIS[Math.floor(Math.random() * EMOJIS.length)] : null;
-            items.push({
-                x: fromX, y: fromY,
-                vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
-                r: emoji ? rand(11, 15) : rand(9, 13), rot: rand(0, Math.PI * 2), vr: rand(-0.1, 0.1),
-                t0: performance.now(), life: 2400,
-                burst: true,
-                emoji: emoji
+        function filtered() {
+            const kw = curKeyword.trim().toLowerCase();
+            return SCP_DATA.filter(item => {
+                if (curLevel && item.level !== curLevel) return false;
+                if (!kw) return true;
+                const hay = (item.id + ' ' + item.name + ' ' + item.category + ' ' +
+                            (item.tags || []).join(' ') + ' ' + item.desc).toLowerCase();
+                return hay.includes(kw);
             });
         }
 
-        // 接近顶点时散开成几朵小元素（局部范围）：小日之丸为主，偶有小 emoji 点缀
-        function burst(it) {
-            var n = Math.floor(rand(3, 5));
-            for (var i = 0; i < n; i++) {
-                var ang = Math.random() * Math.PI * 2;
-                var sp = rand(1.0, 2.6);
-                items.push({
-                    x: it.x, y: it.y,
-                    vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - 1.0,
-                    r: rand(4.5, 7), rot: rand(0, Math.PI * 2), vr: rand(-0.15, 0.15),
-                    t0: performance.now(), life: rand(1000, 1500),
-                    burst: false,
-                    emoji: Math.random() < 0.35 ? EMOJIS[Math.floor(Math.random() * EMOJIS.length)] : null
-                });
-            }
+        function render() {
+            const list = filtered();
+            grid.innerHTML = '';
+            empty.style.display = list.length ? 'none' : 'block';
+            list.forEach(item => {
+                const lv = LEVEL_META[item.level] || { name: item.level, color: '#4d8dff' };
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.setProperty('--lvl-color', lv.color);
+                card.innerHTML = `
+                    <div class="scan"></div>
+                    <div class="card-top">
+                        <span class="card-id">${item.id}</span>
+                        <span class="badge" style="background:${lv.color}">${item.level}级</span>
+                    </div>
+                    <h3>${item.name}</h3>
+                    <div class="category">${item.category}</div>
+                    <div class="threat">${item.threat}</div>
+                    <div class="tags">${(item.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                `;
+                card.addEventListener('click', () => openModal(item));
+                grid.appendChild(card);
+            });
         }
 
-        function frame(now) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (var i = items.length - 1; i >= 0; i--) {
-                var it = items[i];
-                var age = now - it.t0;
-                if (age > it.life) { items.splice(i, 1); continue; }
-                if (it.burst && it.vy > -0.5) { it.burst = false; burst(it); }
-                it.x += it.vx; it.y += it.vy;
-                it.vy += 0.10;
-                it.rot += it.vr;
-                drawSun(it.x, it.y, it.r, it.rot, 1 - age / it.life, it.emoji);
-            }
-            if (items.length || active) { requestAnimationFrame(frame); }
-            else { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+        /* ===== 详情弹窗 ===== */
+        const mask = document.getElementById('modalMask');
+        function openModal(item) {
+            const lv = LEVEL_META[item.level] || { name: item.level, color: '#4d8dff' };
+            document.getElementById('mId').textContent = '档案编号 · ' + item.id;
+            document.getElementById('mName').textContent = item.name;
+            const mLevel = document.getElementById('mLevel');
+            mLevel.textContent = lv.name;
+            mLevel.style.background = lv.color;
+            document.getElementById('mCategory').textContent = item.category;
+            document.getElementById('mThreat').textContent = item.threat;
+            document.getElementById('mAppearance').textContent = item.appearance;
+            document.getElementById('mContainment').textContent = item.containment;
+            document.getElementById('mDesc').textContent = item.desc;
+            document.getElementById('mDiscovered').textContent = item.discovered;
+            document.getElementById('mTags').innerHTML = (item.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+            mask.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
+        function closeModal() { mask.classList.remove('show'); document.body.style.overflow = ''; }
 
-        // 开场：立即发射第一发 + 定时补发，动画循环全程维持
-        function startShow(fromX, fromY) {
-            if (iv) { clearInterval(iv); iv = null; }
-            active = true;
-            var n = 20;
-            var i = 1;
-            launch(fromX, fromY);
-            iv = setInterval(function () {
-                launch(fromX, fromY);
-                i++;
-                if (i >= n) { clearInterval(iv); iv = null; active = false; }
-            }, 90);
-            requestAnimationFrame(frame);
-        }
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        mask.addEventListener('click', e => { if (e.target === mask) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-        var count = 0;
-        try { count = parseInt(localStorage.getItem('nippon-egg') || '0', 10) || 0; } catch (e) {}
-        timeEl.addEventListener('click', function () {
-            count++;
-            try { localStorage.setItem('nippon-egg', String(count)); } catch (e) {}
-            if (count >= 10) {
-                count = 0;
-                try { localStorage.setItem('nippon-egg', '0'); } catch (e) {}
-                var rect = timeEl.getBoundingClientRect();
-                startShow(rect.left + rect.width / 2, rect.top + rect.height / 2);
-            }
+        /* ===== 搜索 / 筛选 ===== */
+        searchInput.addEventListener('input', e => { curKeyword = e.target.value; render(); });
+
+        document.querySelectorAll('#levelFilters .chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('#levelFilters .chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                curLevel = chip.dataset.level;
+                render();
+            });
         });
-    })();
 
-        // 年份自动更新
-        (function () {
-            var yEl = document.getElementById('year');
-            if (yEl) { yEl.textContent = new Date().getFullYear(); }
-        })();
+        /* ===== 统计 ===== */
+        document.getElementById('statTotal').textContent = SCP_DATA.length;
+        document.getElementById('statA').textContent = SCP_DATA.filter(i => i.level === 'α').length;
+        document.getElementById('statB').textContent = SCP_DATA.filter(i => i.level === 'β').length;
+        document.getElementById('statG').textContent = SCP_DATA.filter(i => i.level === 'γ').length;
+        document.getElementById('statD').textContent = SCP_DATA.filter(i => i.level === 'δ').length;
+        document.getElementById('statO').textContent = SCP_DATA.filter(i => i.level === 'ω').length;
 
-        // 回到顶部（滚动后出现）
-        (function () {
-            var backTop = document.getElementById('back-top');
-            if (!backTop) { return; }
-            window.addEventListener('scroll', function () {
-                backTop.classList.toggle('show', window.scrollY > 400);
-            }, { passive: true });
-            backTop.addEventListener('click', function () {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        })();
-
-        // 导航栏搜索按钮：点击后在按钮下方弹出搜索框
-        (function () {
-            var toggle = document.getElementById('search-toggle');
-            var drop = document.getElementById('search-drop');
-            var si = document.getElementById('site-search');
-            if (!toggle || !drop || !si) { return; }
-            toggle.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var show = drop.hidden;
-                drop.hidden = !show;
-                toggle.setAttribute('aria-expanded', String(!show));
-                if (!show) { si.focus(); }
-            });
-            document.addEventListener('click', function (e) {
-                if (!toggle.contains(e.target) && !drop.contains(e.target)) {
-                    drop.hidden = true;
-                    toggle.setAttribute('aria-expanded', 'false');
-                }
-            });
-        })();
-
-        // 站内搜索（跨板块过滤卡片）
-        (function () {
-            var input = document.getElementById('site-search');
-            var countEl = document.getElementById('search-count');
-            if (!input) { return; }
-            input.addEventListener('input', function () {
-                var q = this.value.trim().toLowerCase();
-                var pages = document.querySelectorAll('.page');
-                var cards = document.querySelectorAll('.card');
-                if (!q) {
-                    cards.forEach(function (c) { c.style.display = ''; });
-                    pages.forEach(function (p) { p.style.display = ''; });
-                    if (countEl) { countEl.textContent = ''; }
-                    var cur = null;
-                    try { cur = localStorage.getItem('nippon-page'); } catch (e) {}
-                    show(cur || 'home');
-                    return;
-                }
-                // 命中判定扩展到「板块全文」（含正文、表格、标题），而不只限于卡片
-                var hitPages = [];
-                pages.forEach(function (p) {
-                    if (p.textContent.toLowerCase().indexOf(q) !== -1) { hitPages.push(p); }
-                });
-                // 只显示命中的板块，其余隐藏
-                pages.forEach(function (p) {
-                    p.style.display = hitPages.indexOf(p) !== -1 ? 'block' : 'none';
-                });
-                // 在命中板块内，仍隐藏不含关键词的卡片
-                cards.forEach(function (c) {
-                    var inHit = hitPages.indexOf(c.closest('.page')) !== -1;
-                    c.style.display = (inHit && c.textContent.toLowerCase().indexOf(q) !== -1) ? '' : 'none';
-                });
-                // 计数与显示严格一致：以「命中板块数」为准
-                if (countEl) {
-                    if (hitPages.length === 0) { countEl.textContent = '没有找到相关内容'; }
-                    else { countEl.textContent = '在 ' + hitPages.length + ' 个板块中找到相关内容'; }
-                }
-            });
-        })();
-
-</script>
+        /* 初始渲染 */
+        render();
+    </script>
 </body>
 </html>
