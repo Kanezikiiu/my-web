@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>蓝白社 · 收容物档案</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='14' fill='%23d5d5d5'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23212121' font-family='sans-serif'%3E蓝%3C/text%3E%3C/svg%3E">
     <style>
         :root {
             --bg: #d5d5d5;
@@ -120,11 +121,13 @@
         .search-box {
             flex: 1;
             min-width: 220px;
+            max-width: 100%;
             position: relative;
         }
         .search-box input {
             width: 100%;
-            padding: 12px 16px 12px 42px;
+            height: 46px;
+            padding: 0 16px 0 42px;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 10px;
@@ -166,34 +169,34 @@
             gap: 18px;
         }
         .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 22px;
+            background: linear-gradient(180deg, #eeeeee 0%, #e1e1e1 100%);
+            border: 1px solid #bababa;
+            border-radius: 16px;
+            padding: 22px 22px 20px;
             cursor: pointer;
-            transition: transform .2s, border-color .2s, box-shadow .2s, background .2s;
+            transition: transform .25s ease, box-shadow .3s ease, border-color .25s ease;
             position: relative;
             overflow: hidden;
         }
         .card::before {
             content: "";
             position: absolute;
-            top: 0; left: 0;
-            width: 4px; height: 100%;
-            background: var(--lvl-color, var(--accent));
-            opacity: .8;
+            top: 0; left: 0; bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--lvl-color, var(--accent)), rgba(0,0,0,.15));
+            opacity: .95;
         }
         .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 12px 30px rgba(0,0,0,.45);
-            background: var(--bg-card-hover);
+            transform: translateY(-6px);
+            border-color: #8d8d8d;
+            box-shadow: 0 8px 20px rgba(0,0,0,.16), 0 22px 46px rgba(0,0,0,.26);
+            background: linear-gradient(180deg, #f1f1f1 0%, #e5e5e5 100%);
         }
         /* 悬停档案扫描线 */
         .card .scan {
             position: absolute;
             left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,.25), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,.18), transparent);
             top: -2px;
             opacity: 0;
             transition: opacity .2s;
@@ -204,29 +207,47 @@
         .card-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
+            align-items: center;
+            margin-bottom: 14px;
         }
-        .card-id { font-size: .8rem; color: var(--text-dim); font-weight: 700; letter-spacing: 1px; }
-        .badge {
+        .card-id {
             font-size: .72rem;
+            color: #777;
             font-weight: 700;
-            padding: 3px 10px;
+            letter-spacing: 2px;
+            background: rgba(0,0,0,.05);
+            padding: 3px 9px;
+            border-radius: 7px;
+            border: 1px solid rgba(0,0,0,.06);
+        }
+        .badge {
+            font-size: .7rem;
+            font-weight: 700;
+            padding: 4px 12px;
             border-radius: 999px;
             color: #fff;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 2px 6px rgba(0,0,0,.22);
         }
         .card h3 {
-            font-size: 1.15rem;
-            margin-bottom: 4px;
-            color: var(--text);
+            font-size: 1.18rem;
+            margin-bottom: 8px;
+            color: #1c1c1c;
             font-weight: 800;
             letter-spacing: .5px;
         }
-        .card .category { font-size: .78rem; color: var(--text-dim); margin-bottom: 10px; }
+        .card .category {
+            font-size: .72rem;
+            color: #8a8a8a;
+            letter-spacing: 2px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed rgba(0,0,0,.14);
+        }
         .card .threat {
             font-size: .85rem;
-            color: #3c3c3c;
+            color: #383838;
+            line-height: 1.62;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -234,21 +255,37 @@
         }
         .card .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
         .tag {
-            font-size: .7rem;
-            padding: 2px 9px;
+            font-size: .68rem;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: rgba(0,0,0,.04);
+            color: #5a5a5a;
+            border: 1px solid rgba(0,0,0,.1);
+            letter-spacing: .5px;
+            transition: all .18s;
+        }
+        .card:hover .tag { border-color: rgba(0,0,0,.22); }
+
+        /* 弹窗内标签：更大更疏朗 */
+        .modal .tags { display: flex; flex-wrap: wrap; gap: 12px 12px; margin-top: 2px; }
+        .modal .tag { margin: 0; }
+        .modal .tag {
+            font-size: .82rem;
+            padding: 5px 15px;
             border-radius: 999px;
             background: rgba(0,0,0,.05);
-            color: #555;
-            border: 1px solid rgba(0,0,0,.18);
+            color: #3a3a3a;
+            border: 1px solid rgba(0,0,0,.16);
+            letter-spacing: .5px;
         }
         /* 档案水印 */
         .card::after {
             content: "机密档案";
             position: absolute;
-            right: 10px; bottom: 6px;
+            right: 12px; bottom: 7px;
             font-size: .55rem;
             letter-spacing: 3px;
-            color: rgba(0,0,0,.16);
+            color: rgba(0,0,0,.14);
             pointer-events: none;
         }
 
@@ -340,13 +377,325 @@
             .grid { grid-template-columns: 1fr; }
             .modal { padding: 24px; }
         }
+
+        /* ============ 沉浸式机密档案增强 ============ */
+        /* VHS 水平扫描线覆盖层（怪核失真） */
+        .vhs {
+            position: fixed;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                rgba(0,0,0,.03) 1px,
+                transparent 3px,
+                rgba(255,255,255,.02) 4px
+            );
+            mix-blend-mode: multiply;
+            opacity: .5;
+        }
+        .vhs::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.04) 50%, transparent 100%);
+            animation: vhs-roll 9s linear infinite;
+        }
+        @keyframes vhs-roll { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+        /* 档案抬头（公文抬头） */
+        .file-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-width: 760px;
+            margin: 0 auto 6px;
+            padding: 0 4px;
+            font-size: .68rem;
+            letter-spacing: 2px;
+            color: #7a7a7a;
+        }
+        .file-header .b { font-weight: 700; color: #4a4a4a; }
+
+        /* 等级徽章更精致 */
+        .badge {
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.25);
+            letter-spacing: 2px;
+        }
+
+        /* 卡片档案编号角标 */
+        .card .lvl-tag {
+            position: absolute;
+            top: 14px; left: -26px;
+            transform: rotate(-40deg);
+            font-size: .6rem;
+            letter-spacing: 2px;
+            color: rgba(0,0,0,.35);
+            background: var(--lvl-color, var(--accent));
+            color: #fff;
+            padding: 1px 26px;
+            opacity: .9;
+            box-shadow: 0 1px 3px rgba(0,0,0,.3);
+        }
+
+        /* ω 特危数据删除盖章 */
+        .card.dangerous .data-del {
+            position: absolute;
+            right: 12px; top: 42px;
+            font-size: .62rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: rgba(0,0,0,.5);
+            border: 2px solid rgba(0,0,0,.4);
+            padding: 3px 8px;
+            transform: rotate(-8deg);
+            border-radius: 3px;
+        }
+
+        /* 卡片悬停"打开档案"提示 */
+        .card .open-hint {
+            position: absolute;
+            right: 14px; bottom: 10px;
+            font-size: .62rem;
+            letter-spacing: 2px;
+            color: rgba(0,0,0,0);
+            transition: color .2s;
+            pointer-events: none;
+        }
+        .card:hover .open-hint { color: rgba(0,0,0,.45); }
+
+        /* 随机档案按钮 */
+        .random-btn {
+            height: 46px;
+            padding: 0 20px;
+            background: #2e2e2e;
+            border: 1px solid #2e2e2e;
+            border-radius: 10px;
+            color: #eee;
+            font-size: .82rem;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all .2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        .random-btn:hover { background: #1a1a1a; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,.3); }
+
+        /* 弹窗数据删除条目 */
+        .section.redacted p {
+            font-family: "Courier New", monospace;
+            color: #4a4a4a;
+        }
+        .section.redacted h4::after { background: repeating-linear-gradient(90deg, #a6a6a6 0 4px, transparent 4px 8px); }
+
+        /* 档案纸质感 */
+        .card { background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.02) 0 1px, transparent 1px 26px); }
+        .modal { background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.02) 0 1px, transparent 1px 28px); }
+
+        /* ===== 去除点击蓝色焦点框 ===== */
+        * { -webkit-tap-highlight-color: transparent; }
+        button:focus, button:active,
+        .card:focus, .card:active,
+        .chip:focus, .chip:active,
+        .random-btn:focus, .random-btn:active,
+        .modal .close:focus, .modal .close:active,
+        a:focus, a:active,
+        input:focus, input:active {
+            outline: none !important;
+        }
+        /* 键盘操作仍保留细腻的灰色焦点（可访问性） */
+        .card:focus-visible, .chip:focus-visible, button:focus-visible,
+        .random-btn:focus-visible, .modal .close:focus-visible, a:focus-visible {
+            outline: 1px solid rgba(0,0,0,.35);
+            outline-offset: 2px;
+        }
+
+        /* ===== 筛选栏 ===== */
+        .filterbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 24px;
+            margin-bottom: 12px;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .filter-group .flabel {
+            font-size: .72rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-right: 4px;
+        }
+        .filter-group .chip {
+            padding: 6px 13px;
+            font-size: .8rem;
+        }
+        /* 结果计数 */
+        .resultbar {
+            margin: 2px 0 16px;
+            font-size: .78rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+        .resultbar span { background: rgba(0,0,0,.05); padding: 3px 12px; border-radius: 999px; }
+
+        /* ===== 排序下拉（自定义） ===== */
+        .dropdown { position: relative; }
+        .dropdown-btn {
+            width: 140px;
+            height: 46px;
+            padding: 0 34px 0 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: .82rem;
+            cursor: pointer;
+            letter-spacing: 1px;
+            outline: none;
+            transition: all .2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 11px center;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .dropdown-btn:hover { border-color: var(--accent); }
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            min-width: 170px;
+            background: #efefef;
+            border: 1px solid #b5b5b5;
+            border-radius: 10px;
+            box-shadow: 0 12px 32px rgba(0,0,0,.28);
+            padding: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 60;
+        }
+        .dropdown-menu.open { display: flex; }
+        .dropdown-item {
+            padding: 9px 13px;
+            border-radius: 7px;
+            font-size: .82rem;
+            color: var(--text);
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background .15s;
+            white-space: nowrap;
+        }
+        .dropdown-item:hover { background: rgba(0,0,0,.09); }
+        .dropdown-item.active { background: #2e2e2e; color: #fff; }
+
+        /* ===== 搜索高亮 ===== */
+        mark.hl {
+            background: rgba(0,0,0,.16);
+            color: inherit;
+            border-radius: 2px;
+            padding: 0 1px;
+        }
+
+        /* ===== 世界观说明 ===== */
+        .about {
+            margin-top: 46px;
+            border-top: 1px solid var(--border);
+            padding-top: 18px;
+        }
+        .about-toggle {
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-dim);
+            font-size: .85rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .about-toggle:hover { color: var(--text); border-color: var(--accent); }
+        .about-body {
+            display: none;
+            margin-top: 14px;
+            padding: 18px 22px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+        .about-body.open { display: block; }
+        .about-item { margin-bottom: 14px; }
+        .about-item:last-child { margin-bottom: 0; }
+        .about-item b {
+            display: block;
+            font-size: .78rem;
+            letter-spacing: 3px;
+            color: var(--accent2);
+            margin-bottom: 4px;
+        }
+        .about-item p { font-size: .88rem; color: #3a3a3a; line-height: 1.7; }
+
+        /* ===== 返回顶部 ===== */
+        .back-top {
+            position: fixed;
+            right: 24px; bottom: 28px;
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: #2e2e2e;
+            border: 1px solid #2e2e2e;
+            color: #eee;
+            font-size: 1.3rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all .3s;
+            box-shadow: 0 6px 18px rgba(0,0,0,.35);
+            z-index: 80;
+        }
+        .back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .back-top:hover { background: #1a1a1a; }
+
+        /* ===== 空状态 ===== */
+        .empty-icon { font-size: 2.2rem; margin-bottom: 10px; opacity: .6; }
+        .empty-text { font-size: .95rem; color: var(--text-dim); margin-bottom: 16px; letter-spacing: 1px; }
+        .empty-reset {
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--text-dim);
+            font-size: .82rem;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all .2s;
+        }
+        .empty-reset:hover { color: var(--text); border-color: var(--accent); }
     </style>
 </head>
 <body>
     <canvas id="stars"></canvas>
+    <div class="vhs"></div>
 
     <div class="wrap">
         <header>
+            <div class="file-header">
+                <span class="b">蓝白社 · 机密档案 LWS-████</span>
+                <span id="fileDate">归档日期 ████.██.██</span>
+            </div>
             <div class="logo">蓝 白 社</div>
             <div class="subtitle">收 容 物 机 密 档 案 · 非 授 权 人 员 勿 阅</div>
             <div class="stats">
@@ -369,7 +718,21 @@
             </span>
                 <input type="text" id="search" placeholder="搜索编号 / 名称 / 关键词…" autocomplete="off">
             </div>
-            <div class="filters" id="levelFilters">
+            <button class="random-btn" id="randomBtn">↻ 随机档案</button>
+            <div class="dropdown" id="sortSel">
+                <button class="dropdown-btn" id="sortSelBtn">默认排序</button>
+                <div class="dropdown-menu" id="sortSelMenu">
+                    <div class="dropdown-item active" data-val="">默认排序</div>
+                    <div class="dropdown-item" data-val="lv-asc">等级 低→高</div>
+                    <div class="dropdown-item" data-val="lv-desc">等级 高→低</div>
+                    <div class="dropdown-item" data-val="name">按名称</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filterbar">
+            <div class="filter-group" id="levelFilters">
+                <span class="flabel">等级</span>
                 <span class="chip active" data-level="">全部</span>
                 <span class="chip" data-level="α">α级</span>
                 <span class="chip" data-level="β">β级</span>
@@ -377,16 +740,46 @@
                 <span class="chip" data-level="δ">δ级</span>
                 <span class="chip" data-level="ω">ω级</span>
             </div>
+            <div class="filter-group" id="catFilters">
+                <span class="flabel">类别</span>
+                <span class="chip active" data-cat="">全部</span>
+                <span class="chip" data-cat="物品类">物品</span>
+                <span class="chip" data-cat="概念类">概念</span>
+                <span class="chip" data-cat="生物类">生物</span>
+                <span class="chip" data-cat="现象类">现象</span>
+            </div>
         </div>
 
+        <div class="resultbar"><span id="resultCount">共 0 件档案</span></div>
+
         <div class="grid" id="grid"></div>
-        <div class="empty" id="empty" style="display:none;">🔒 未找到匹配的收容物档案</div>
+        <div class="empty" id="empty" style="display:none;">
+            <div class="empty-icon">🔒</div>
+            <div class="empty-text">未找到匹配的收容物档案</div>
+            <button class="empty-reset" id="emptyReset">清除筛选条件</button>
+        </div>
+
+        <!-- 世界观说明 -->
+        <div class="about" id="aboutPanel">
+            <button class="about-toggle" id="aboutToggle">ℹ 关于《蓝白社》设定</button>
+            <div class="about-body" id="aboutBody">
+                <div class="about-item"><b>组织</b><p id="wOrg"></p></div>
+                <div class="about-item"><b>收容物</b><p id="wDef"></p></div>
+                <div class="about-item"><b>等级体系</b><p id="wLevel"></p></div>
+                <div class="about-item"><b>D级人员</b><p id="wD"></p></div>
+                <div class="about-item"><b>限制者</b><p id="wLink"></p></div>
+                <div class="about-item"><b>阐道者</b><p id="wEva"></p></div>
+            </div>
+        </div>
 
         <footer>
             本网站为《蓝白社》同人作品 · 收容物数据可于 <a href="data.js">data.js</a> 中自行增补<br>
             天下皆白 · 唯我独黑
         </footer>
     </div>
+
+    <!-- 返回顶部 -->
+    <button class="back-top" id="backTop" title="返回顶部">↑</button>
 
     <!-- 详情弹窗 -->
     <div class="modal-mask" id="modalMask">
@@ -398,6 +791,7 @@
                 <div class="m-meta">
                     <span class="badge" id="mLevel"></span>
                     <span class="badge" style="background:#595959" id="mCategory"></span>
+                    <span class="badge" style="background:#8a8a8a" id="mSource">来源章节 · 未知</span>
                 </div>
             </div>
             <div class="section">
@@ -461,27 +855,51 @@
         const empty = document.getElementById('empty');
         const searchInput = document.getElementById('search');
         let curLevel = '';
+        let curCat = '';
         let curKeyword = '';
+        let curSort = '';
 
         function levelColor(lv) {
             return (LEVEL_META[lv] && LEVEL_META[lv].color) || '#4d8dff';
         }
 
+        /* 搜索关键词高亮 */
+        function highlight(text) {
+            const kw = curKeyword.trim();
+            if (!kw) return text;
+            const esc = kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            try {
+                return text.replace(new RegExp('(' + esc + ')', 'gi'), '<mark class="hl">$1</mark>');
+            } catch (e) { return text; }
+        }
+
         function filtered() {
             const kw = curKeyword.trim().toLowerCase();
-            return SCP_DATA.filter(item => {
+            const list = SCP_DATA.filter(item => {
                 if (curLevel && item.level !== curLevel) return false;
+                if (curCat && item.category !== curCat) return false;
                 if (!kw) return true;
                 const hay = (item.id + ' ' + item.name + ' ' + item.category + ' ' +
                             (item.tags || []).join(' ') + ' ' + item.desc).toLowerCase();
                 return hay.includes(kw);
             });
+            if (curSort === 'name') {
+                list.sort((a, b) => a.name.localeCompare(b.name, 'zh'));
+            } else if (curSort === 'lv-asc') {
+                const order = { 'α': 1, 'β': 2, 'γ': 3, 'δ': 4, 'ω': 5 };
+                list.sort((a, b) => (order[a.level] || 9) - (order[b.level] || 9));
+            } else if (curSort === 'lv-desc') {
+                const order = { 'α': 1, 'β': 2, 'γ': 3, 'δ': 4, 'ω': 5 };
+                list.sort((a, b) => (order[b.level] || 9) - (order[a.level] || 9));
+            }
+            return list;
         }
 
         function render() {
             const list = filtered();
             grid.innerHTML = '';
             empty.style.display = list.length ? 'none' : 'block';
+            document.getElementById('resultCount').textContent = '共 ' + list.length + ' 件档案';
             list.forEach(item => {
                 const lv = LEVEL_META[item.level] || { name: item.level, color: '#4d8dff' };
                 const card = document.createElement('div');
@@ -493,11 +911,14 @@
                         <span class="card-id">${item.id}</span>
                         <span class="badge" style="background:${lv.color}">${item.level}级</span>
                     </div>
-                    <h3>${item.name}</h3>
+                    ${item.level === 'ω' ? '<span class="data-del">数据删除</span>' : ''}
+                    <h3>${highlight(item.name)}</h3>
                     <div class="category">${item.category}</div>
-                    <div class="threat">${item.threat}</div>
+                    <div class="threat">${highlight(item.threat)}</div>
                     <div class="tags">${(item.tags || []).map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                    <span class="open-hint">打开档案 →</span>
                 `;
+                if (item.level === 'ω') card.classList.add('dangerous');
                 card.addEventListener('click', () => openModal(item));
                 grid.appendChild(card);
             });
@@ -513,6 +934,7 @@
             mLevel.textContent = lv.name;
             mLevel.style.background = lv.color;
             document.getElementById('mCategory').textContent = item.category;
+            document.getElementById('mSource').textContent = '来源章节 · ' + (SOURCE_MAP[item.id] || SOURCE_MAP[item.name] || '未收录');
             document.getElementById('mThreat').textContent = item.threat;
             document.getElementById('mAppearance').textContent = item.appearance;
             document.getElementById('mContainment').textContent = item.containment;
@@ -521,6 +943,9 @@
             document.getElementById('mTags').innerHTML = (item.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
             mask.classList.add('show');
             document.body.style.overflow = 'hidden';
+            // 显示后再重置滚动位置（display:none 时设置无效）
+            document.getElementById('modal').scrollTop = 0;
+            requestAnimationFrame(() => { document.getElementById('modal').scrollTop = 0; });
         }
         function closeModal() { mask.classList.remove('show'); document.body.style.overflow = ''; }
 
@@ -528,14 +953,60 @@
         mask.addEventListener('click', e => { if (e.target === mask) closeModal(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-        /* ===== 搜索 / 筛选 ===== */
+        /* ===== 搜索 / 筛选 / 排序 ===== */
         searchInput.addEventListener('input', e => { curKeyword = e.target.value; render(); });
+
+        /* 自定义排序下拉 */
+        const sortBtn = document.getElementById('sortSelBtn');
+        const sortMenu = document.getElementById('sortSelMenu');
+        sortBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            sortMenu.classList.toggle('open');
+        });
+        document.querySelectorAll('#sortSelMenu .dropdown-item').forEach(it => {
+            it.addEventListener('click', () => {
+                curSort = it.dataset.val;
+                sortBtn.textContent = it.textContent;
+                document.querySelectorAll('#sortSelMenu .dropdown-item').forEach(x => x.classList.remove('active'));
+                it.classList.add('active');
+                sortMenu.classList.remove('open');
+                render();
+            });
+        });
+        document.addEventListener('click', () => sortMenu.classList.remove('open'));
+
+        /* ===== 返回顶部 ===== */
+        const backTop = document.getElementById('backTop');
+        window.addEventListener('scroll', () => {
+            backTop.classList.toggle('show', window.scrollY > 500);
+        });
+        backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* ===== 空状态：清除筛选 ===== */
+        document.getElementById('emptyReset').addEventListener('click', () => {
+            curLevel = ''; curCat = ''; curKeyword = ''; curSort = '';
+            searchInput.value = '';
+            document.querySelectorAll('#levelFilters .chip').forEach(c => c.classList.toggle('active', c.dataset.level === ''));
+            document.querySelectorAll('#catFilters .chip').forEach(c => c.classList.toggle('active', c.dataset.cat === ''));
+            document.querySelectorAll('#sortSelMenu .dropdown-item').forEach(x => x.classList.toggle('active', x.dataset.val === ''));
+            sortBtn.textContent = '默认排序';
+            render();
+        });
 
         document.querySelectorAll('#levelFilters .chip').forEach(chip => {
             chip.addEventListener('click', () => {
                 document.querySelectorAll('#levelFilters .chip').forEach(c => c.classList.remove('active'));
                 chip.classList.add('active');
                 curLevel = chip.dataset.level;
+                render();
+            });
+        });
+
+        document.querySelectorAll('#catFilters .chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('#catFilters .chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                curCat = chip.dataset.cat;
                 render();
             });
         });
@@ -547,6 +1018,30 @@
         document.getElementById('statG').textContent = SCP_DATA.filter(i => i.level === 'γ').length;
         document.getElementById('statD').textContent = SCP_DATA.filter(i => i.level === 'δ').length;
         document.getElementById('statO').textContent = SCP_DATA.filter(i => i.level === 'ω').length;
+
+        /* 归档日期 */
+        const now = new Date();
+        const pad = n => String(n).padStart(2, '0');
+        document.getElementById('fileDate').textContent =
+            '归档日期 ' + now.getFullYear() + '.' + pad(now.getMonth() + 1) + '.' + pad(now.getDate());
+
+        /* 随机档案 */
+        document.getElementById('randomBtn').addEventListener('click', () => {
+            if (!SCP_DATA.length) return;
+            const item = SCP_DATA[Math.floor(Math.random() * SCP_DATA.length)];
+            openModal(item);
+        });
+
+        /* 世界观说明 */
+        document.getElementById('wOrg').textContent = WORLD_META.orgDesc;
+        document.getElementById('wDef').textContent = WORLD_META.containmentDef;
+        document.getElementById('wLevel').textContent = WORLD_META.levelSystem;
+        document.getElementById('wD').textContent = WORLD_META.dClass;
+        document.getElementById('wLink').textContent = WORLD_META.link;
+        document.getElementById('wEva').textContent = WORLD_META.evangelist;
+        document.getElementById('aboutToggle').addEventListener('click', () => {
+            document.getElementById('aboutBody').classList.toggle('open');
+        });
 
         /* 初始渲染 */
         render();
