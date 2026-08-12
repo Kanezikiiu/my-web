@@ -1090,9 +1090,19 @@
             document.getElementById('mTags').innerHTML = (item.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
             mask.classList.add('show');
             document.body.style.overflow = 'hidden';
-            document.getElementById('modal').scrollTop = 0;
-            requestAnimationFrame(() => { document.getElementById('modal').scrollTop = 0; });
+            const modalEl = document.getElementById('modal');
+            modalEl.style.maxHeight = Math.round(window.innerHeight * 0.88) + 'px';
+            modalEl.scrollTop = 0;
+            requestAnimationFrame(() => { modalEl.scrollTop = 0; });
         }
+        /* 窗口尺寸变化/旋转时修正弹窗尺寸（防止超出边界） */
+        function fitModal() {
+            if (mask.classList.contains('show')) {
+                document.getElementById('modal').style.maxHeight = Math.round(window.innerHeight * 0.88) + 'px';
+            }
+        }
+        window.addEventListener('resize', fitModal);
+        window.addEventListener('orientationchange', () => setTimeout(fitModal, 120));
         function closeModal() { mask.classList.remove('show'); document.body.style.overflow = ''; }
 
         document.getElementById('modalClose').addEventListener('click', closeModal);
